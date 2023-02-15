@@ -1,0 +1,44 @@
+CC        := cc
+CFLAGS    := -std=c99 -Wall -Wextra -O3 -DENABLE_XWINDOW
+DEPEND    := -MMD
+LIBS      := -lm -lX11
+INCLUDES  := -Iinclude
+SRCSDIR   := src
+OBJSDIR   := obj
+SRCS      := $(foreach dir, $(shell find $(SRCSDIR) -type d), $(wildcard $(dir)/*.c))
+OBJS      := $(addprefix $(OBJSDIR)/, $(subst $(SRCSDIR)/,,$(SRCS:.c=.o)))
+DEPS      := $(addprefix $(OBJSDIR)/, $(subst $(SRCSDIR)/,,$(SRCS:.c=.d)))
+OUTPUTDIR := output
+TARGET    := a.out
+
+help:
+	@echo "all     : create \"$(TARGET)\""
+	@echo "clean   : remove \"$(TARGET)\" and object files under \"$(OBJSDIR)\""
+	@echo "help    : show this message"
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $(DEPEND) -o $@ $^ $(LIBS)
+
+$(OBJSDIR)/%.o: $(SRCSDIR)/%.c
+	@if [ ! -e `dirname $@` ]; then \
+		mkdir -p `dirname $@`; \
+	fi
+	$(CC) $(CFLAGS) $(DEPEND) $(INCLUDES) -c $< -o $@
+
+clean:
+	$(RM) -r $(OBJSDIR) $(TARGET)
+
+output:
+	@if [ ! -e $(OUTPUTDIR) ]; then \
+	   mkdir $(OUTPUTDIR); \
+	fi
+
+datadel:
+	@$(RM) $(OUTPUTDIR)/*.dat
+
+-include $(DEPS)
+
+.PHONY : help all clean output datadel
+
