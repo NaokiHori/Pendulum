@@ -1,0 +1,29 @@
+body {
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-blue: #0000ff;
+  --color-orange: #ffb494;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  margin: auto;
+  background-color: var(--color-black);
+  font-family: Georgia, serif;
+  font-weight: normal;
+}
+
+.horizontal-line:before {
+    content: " ";
+    display: block;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--color-white);
+}
+
+ul,
+ol,
+li {
+  list-style-type: disc;
+  color: var(--color-orange);
+}
+

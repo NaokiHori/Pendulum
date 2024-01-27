@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <!-- meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <!-- import style sheets -->
+    <link
+      rel="stylesheet"
+      href="{{ pathto('_static/pygments.css', 1) }}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ pathto('_static/header.css', 1) }}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ pathto('_static/mysphinxtheme.css', 1) }}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ pathto('_static/content.css', 1) }}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ pathto('_static/toctree.css', 1) }}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ pathto('_static/footer.css', 1) }}"
+      type="text/css"
+    />
+    <!-- javascript sources -->
+    {% for js in script_files %}
+    {{ js_tag(js) }}
+    {% endfor %}
+    <!-- title of the page -->
+    <title>
+      {{ title }} - {{ project }}
+    </title>
+  </head>
+
+  <body>
+
+    <!-- header, project description -->
+    <div class="header-wrapper">
+      <div class="header">
+        <!-- project name and description -->
+        {% if theme_github_repo != "" %}
+        <a href={{ theme_github_repo }}>
+          {{ project }}
+        </a>
+        {% else %}
+        {{ project }}
+        {% endif %}
+        <!-- append description if exists -->
+        {% if "" != theme_description %}
+         - {{ theme_description }}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- main content processed by docutils -->
+    <div class="content-wrapper">
+      <div class="content">
+        <!-- I cannot touch from here -->
+        {% block body %}
+        {% endblock body %}
+        <!-- I cannot touch to here -->
+      </div>
+    </div>
+
+    <div class="horizontal-line"/>
+
+    <!-- toctree -->
+    <div class="toctree-wrapper">
+      <div class="toctree">
+        <!-- title -->
+        <div class="toctree-title">
+          <a href="{{ pathto(master_doc) }}">
+            Table of contents
+          </a>
+        </div>
+        <!-- tree -->
+        {{ toctree(includehidden=true, collapse=true) }}
+      </div>
+    </div>
+
+    <!-- footer, copyright -->
+    {% if copyright %}
+    <div class="footer-wrapper">
+      <div class="footer">
+        &copy;{{ copyright }}.
+      </div>
+    </div>
+    {% endif %}
+
+  </body>
+
+</html>

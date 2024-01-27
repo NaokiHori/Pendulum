@@ -1,0 +1,21 @@
+div.toctree-wrapper {
+  width: 100%;
+  margin: auto;
+  background-color: var(--color-black);
+}
+
+div.toctree {
+  width: 95%;
+  padding-left: 2.5%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+div.toctree a {
+  color: var(--color-orange);
+}
+
+div.toctree-title {
+  font-size: large;
+}
+

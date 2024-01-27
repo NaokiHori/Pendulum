@@ -1,0 +1,20 @@
+[package]
+name = "pendulum"
+version = "0.1.0"
+edition = "2021"
+authors = ["Naoki Hori"]
+description = "Energy-conserving N-body pendulum simulator"
+repository = "https://github.com/NaokiHori/MinimalCanvasExample"
+license-file = "LICENSE"
+
+[[bin]]
+name = "pendulum"
+path = "src/main.rs"
+
+[lib]
+name = "pendulum"
+crate-type = ["lib"]
+path = "src/lib.rs"
+
+[features]
+explicit = []

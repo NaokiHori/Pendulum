@@ -1,0 +1,98 @@
+/* general boxes */
+div.content-wrapper {
+  width: 100%;
+  margin: auto;
+}
+
+div.content {
+  width: 95%;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: var(--color-white);
+}
+
+/* general header configurations */
+div.content h1,
+div.content h2,
+div.content h3,
+div.content h4,
+div.content h5,
+div.content h6 {
+  font-weight: normal;
+}
+
+/* header font sizes */
+div.content h1 {
+  font-size: xxx-large;
+}
+div.content h2 {
+  font-size: xx-large;
+}
+div.content h3 {
+  font-size: x-large;
+}
+div.content h4 {
+  font-size: large;
+}
+div.content h5 {
+  font-size: medium;
+}
+div.content h6 {
+  font-size: medium;
+}
+
+/* links */
+div.content a {
+  color: var(--color-orange);
+}
+
+/* strange mark behind header */
+div.content a.headerlink {
+  color: var(--color-black);
+}
+div.content a.headerlink:hover {
+  color: var(--color-white);
+}
+
+/* code blocks, change font */
+pre,
+tt,
+code {
+  font-family: "Consolas", "Menlo", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+}
+
+/* code blocks, adjust box */
+div.highlight {
+  /* border */
+  border-width: 1px;
+  border-color: var(--color-white);
+  border-style: solid;
+  /* padding */
+  padding-left: 5px;
+  /* overflow */
+  overflow-x: scroll;
+  overflow-y: clip;
+}
+
+/* note */
+div.admonition.note {
+  /* border */
+  border-width: 1px;
+  border-color: var(--color-white);
+  border-style: solid;
+}
+
+/* mathjax */
+div.MathJax_Display {
+  text-align: left !important;
+  overflow-x: scroll;
+  overflow-y: clip;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
