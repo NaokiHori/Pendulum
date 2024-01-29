@@ -57,6 +57,10 @@ The followings are checked at least:
 
 * Safari 17.1
 
+* Microsoft Edge 121.0.2277.83
+
+* Firefox 111.0.1
+
 ===============
 Try it locally
 ===============
