@@ -2,9 +2,17 @@
 <html lang="en-US">
 
   <head>
-    <!-- meta tags -->
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width"/>
+    <!-- open graph protocol -->
+    <meta property="og:site_name" content="{{ project }}">
+    <meta property="og:title" content="{{ title }} - {{ project }}">
+    {% if "" != theme_description %}
+    <meta property="og:description" content="{{ theme_description }}">
+    {% endif %}
+    <meta property="og:url" content="https://naokihori.github.io/Pendulum/index.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://naokihori.github.io/Pendulum/_images/thumbnail.png">
     <!-- import style sheets -->
     <link
       rel="stylesheet"
