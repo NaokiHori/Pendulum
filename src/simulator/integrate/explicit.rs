@@ -95,7 +95,16 @@ fn kernel(dt: f64, nitems: usize, poss: &mut Vec<f64>, vels: &mut Vec<f64>) -> (
     solve_linear_system(nitems, &mut lhs, &mut dvels, &mut rhs);
     // update vel and pos
     for i in 0..nitems {
-        [vels[i], poss[i]] = get_new_values(vels[i], poss[i], dvels[i], dt);
+        const PI: f64 = std::f64::consts::PI;
+        let [v, mut p]: [f64; 2] = get_new_values(vels[i], poss[i], dvels[i], dt);
+        if p < -PI {
+            p += 2. * PI;
+        }
+        if PI < p {
+            p -= 2. * PI;
+        }
+        vels[i] = v;
+        poss[i] = p;
     }
 }
 
