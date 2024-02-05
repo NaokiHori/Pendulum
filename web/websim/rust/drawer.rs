@@ -7,7 +7,6 @@ const YELLOW: &'static str = "#ffff88";
 
 /// Stores pointers to HTML elements.
 pub struct Drawer {
-    container: web_sys::HtmlElement,
     canvas: web_sys::HtmlCanvasElement,
     context: web_sys::CanvasRenderingContext2d,
 }
@@ -16,12 +15,6 @@ impl Drawer {
     /// Gets HTML elements are hold them.
     pub fn new() -> Drawer {
         let document: web_sys::Document = web_sys::window().unwrap().document().unwrap();
-        let container: web_sys::HtmlElement = document
-            .get_element_by_id("canvas-container")
-            .unwrap()
-            .dyn_into::<web_sys::HtmlElement>()
-            .map_err(|_| ())
-            .unwrap();
         let canvas: web_sys::HtmlCanvasElement = document
             .get_element_by_id("my-canvas")
             .unwrap()
@@ -34,11 +27,7 @@ impl Drawer {
             .unwrap()
             .dyn_into::<web_sys::CanvasRenderingContext2d>()
             .unwrap();
-        return Drawer {
-            container,
-            canvas,
-            context,
-        };
+        return Drawer { canvas, context };
     }
     /// Core function to draw all to canvas.
     ///
@@ -53,11 +42,11 @@ impl Drawer {
         tpoints: &Vec<[f64; 2]>,
         enes: &[Vec<f64>; 2],
     ) -> () {
-        let container: &web_sys::HtmlElement = &self.container;
+        let canvas: &web_sys::HtmlCanvasElement = &self.canvas;
         let context: &web_sys::CanvasRenderingContext2d = &self.context;
         // get canvas size
-        let w: f64 = container.client_width() as f64;
-        let h: f64 = container.client_height() as f64;
+        let w: f64 = canvas.client_width() as f64;
+        let h: f64 = canvas.client_height() as f64;
         // clean canvas
         context.clear_rect(0., 0., w, h);
         let show_graph: bool = 2. * h < w;
@@ -97,10 +86,9 @@ impl Drawer {
 
     /// Updates canvas size when the window is resized.
     pub fn update_canvas_size(&self) -> () {
-        let container: &web_sys::HtmlElement = &self.container;
         let canvas: &web_sys::HtmlCanvasElement = &self.canvas;
-        let w: i32 = container.client_width();
-        let h: i32 = container.client_height();
+        let w: i32 = canvas.client_width();
+        let h: i32 = canvas.client_height();
         canvas.set_width(w as u32);
         canvas.set_height(h as u32);
     }
