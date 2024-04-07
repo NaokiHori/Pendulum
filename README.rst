@@ -2,7 +2,7 @@
 `Pendulum <https://naokihori.github.io/Pendulum/>`_
 ###################################################
 
-|License|_ |LastCommit|_ |CI|_
+|License| |LastCommit| |CI|
 
 .. |License| image:: https://img.shields.io/github/license/NaokiHori/Pendulum
 .. _License: https://opensource.org/licenses/MIT
