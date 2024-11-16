@@ -1,0 +1,13 @@
+div.MathJax_Display {
+  overflow-x: scroll;
+  overflow-y: clip;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+a:visited {
+  color: #ffb494;
+}

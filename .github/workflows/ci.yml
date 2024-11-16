@@ -1,18 +1,26 @@
 name: CI
 
 on:
-
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - README.rst
+  workflow_dispatch:
 
 jobs:
-
   run-default-case:
     name: Run default case
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      checks: none
+      contents: write
+      deployments: none
+      id-token: none
+      issues: none
+      discussions: none
+      packages: none
+      pages: none
+      pull-requests: none
+      repository-projects: none
+      security-events: none
+      statuses: none
     steps:
       - name: Checkout repository
         uses: actions/checkout@main
@@ -22,129 +30,13 @@ jobs:
           pip install numpy matplotlib
       - name: Build and run
         run: |
-          bash web/sphinx/example/data/exec.sh
-      - name: Upload artifacts
-        uses: actions/upload-artifact@main
-        with:
-          name: SimResult
-          path: result
-
-  build-doc:
-    name: Build documentation
-    runs-on: ubuntu-latest
-    needs: [run-default-case]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@main
-      - name: Install Sphinx
+          bash docs/source/example/data/exec.sh
+      - name: Push artifact
         run: |
-          python -m pip install --upgrade pip
-          pip install sphinx
-      - name: Download simulation result
-        uses: actions/download-artifact@main
-        with:
-          name: SimResult
-          path: web/sphinx/example/data
-      - name: Build Sphinx documentation
-        run: |
-          sphinx-build web/sphinx doc
-          cp web/sphinx/thumbnail.png doc/_images/
-      - name: Build crate documentation
-        run: |
-          cd web/websim
-          cargo doc \
-            --no-deps \
-            --document-private-items \
-            --package=pendulum \
-            --package=wasm_wrapper
-          cd ../..
-          mkdir doc/rustdoc
-          mv web/websim/target/doc/* doc/rustdoc/
-      - name: Upload artifacts
-        uses: actions/upload-artifact@main
-        with:
-          name: doc
-          path: doc
-
-  build-wasm:
-    name: Build WebAssembly
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@main
-      - name: Setup node
-        uses: actions/setup-node@main
-      - name: Install TypeScript
-        run: |
-          npm install -g typescript
-      - name: Install wasm-pack
-        run: |
-          cargo install wasm-pack
-      - name: Build library crate
-        run: |
-          cargo build --release --lib
-      - name: Prepare destination and temporary space
-        run: |
-          mkdir wasm
-      - name: Build WebAssembly
-        run: |
-          cd web/websim
-          mkdir artifacts
-          wasm-pack build --target web
-          cp pkg/*.js artifacts/
-          cp pkg/*.wasm artifacts/
-          cp pkg/*.ts typescript/
-          tsc --outDir artifacts/
-          cd ../..
-          mv web/websim/artifacts/* wasm/
-      - name: Upload artifacts
-        uses: actions/upload-artifact@main
-        with:
-          name: wasm
-          path: wasm
-
-  deploy-doc:
-    name: Deploy documentation
-    needs: [build-doc, build-wasm]
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: "pages"
-      cancel-in-progress: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download doc artifacts
-        uses: actions/download-artifact@main
-        with:
-          name: doc
-          path: artifacts
-      - name: Download wasm artifacts
-        uses: actions/download-artifact@main
-        with:
-          name: wasm
-          path: wasm
-      - name: Check directory of artifacts
-        run: |
-          find artifacts -type f | xargs ls -l
-      - name: Check directory of wasm
-        run: |
-          find wasm -type f | xargs ls -l
-      - name: Unify artifacts
-        run: |
-          mkdir artifacts/_static/websim
-          mv wasm/* artifacts/_static/websim/
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@main
-      - name: Upload HTML
-        uses: actions/upload-pages-artifact@main
-        with:
-          path: artifacts
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@main
+          git config --local user.email "36466440+NaokiHori@users.noreply.github.com"
+          git config --local user.name "NaokiHori"
+          git switch -c artifact
+          git add artifacts
+          git commit -m "Update image" -a || true
+          git push -f origin artifact
 
