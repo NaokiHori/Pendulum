@@ -1,0 +1,36 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  display: flex;
+  flex-flow: column;
+}
+
+#svg-container {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-height: 0;
+  background-color: #444;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#footer {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  text-align: center;
+  color: #fff;
+  background-color: #000;
+  font-size: medium;
+}
+
+#footer > a {
+  color: #fff;
+}

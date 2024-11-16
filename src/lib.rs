@@ -1,76 +1,70 @@
-#![deny(missing_docs)]
+//! Glue code.
 
-//! Simulates N-body pendulums.
-//!
-//! This crate is designed to solve [the governing equations](https://naokihori.github.io/Pendulum/equation/main.html) describing the motion of N-body pendulums.
-//! The central function is [`simulator::integrate()`], which integrates the system *for
-//! one step*.
-//! For instance,
-//! ```rust
-//! let mut p: pendulum::Pendulum = pendulum::simulator::init(nitems);
-//! // call as many times as you want
-//! let dt: f64 = pendulum::simulator::integrate(&mut p);
-//! ```
-//! Note that the time step size `dt` is *decided by the integrator* and not to be specified.
+pub mod pendulum;
 
-/// Stores the state of the pendulum.
-pub struct Pendulum {
-    /// Number of mass points.
-    nitems: usize,
-    /// Angles.
-    poss: Vec<f64>,
-    /// Angular velocities.
-    vels: Vec<f64>,
-    /// Time step size, which is used as a reference to decide the next value.
-    dt: f64,
+pub use crate::pendulum::{Energy, Pendulum};
+use wasm_bindgen::prelude::*;
+
+/// Wraps objects which are needed by front-end.
+#[wasm_bindgen]
+pub struct Wrapper {
+    /// Main object to be simulated.
+    pendulum: Pendulum,
+    /// Mass positions in Cartesian coordinates.
+    positions: Vec<f64>,
 }
 
-/// Getters.
-impl Pendulum {
-    /// Getter, number of items.
-    pub fn get_nitems(&self) -> usize {
-        return self.nitems;
+/// Entry point.
+#[wasm_bindgen]
+impl Wrapper {
+    /// Constructor.
+    pub fn new(nitems: usize) -> Self {
+        let pendulum = Pendulum::new(nitems);
+        let positions = vec![0f64; nitems * 2];
+        Self {
+            pendulum,
+            positions,
+        }
     }
-    /// Getter, positions (angles).
-    pub fn get_positions(&self) -> &Vec<f64> {
-        return &self.poss;
+
+    /// Integrator.
+    pub fn integrate(&mut self) {
+        // loop until desired time is reached
+        let rate = 5e-2f64;
+        // update pendulum
+        let mut time = 0f64;
+        loop {
+            let dt: f64 = self.pendulum.integrate();
+            time += dt;
+            if rate < time {
+                break;
+            }
+        }
     }
-    /// Getter, (angular) velocities.
-    pub fn get_velocities(&self) -> &Vec<f64> {
-        return &self.vels;
+
+    /// Returns a pointer to the current mass positions in Cartesian coordinates.
+    pub fn get_positions(&mut self) -> *const f64 {
+        let angles: &[f64] = self.pendulum.get_positions();
+        let positions: &mut [f64] = &mut self.positions;
+        let mut x = 0f64;
+        let mut y = 0f64;
+        for (n, angle) in angles.iter().enumerate() {
+            x += angle.cos();
+            y += angle.sin();
+            let x_index: usize = 2usize * n;
+            let y_index: usize = 2usize * n + 1usize;
+            positions[x_index] = x;
+            positions[y_index] = y;
+        }
+        positions.as_ptr()
+    }
+
+    /// Calculate instantaneous kinetic and potential energies.
+    pub fn check_energies(&self) -> Energy {
+        self.pendulum.check_energies()
     }
 }
 
-/// Stores kinetic and the potential energies.
-pub struct Energy {
-    /// Kinetic energy
-    pub t: f64,
-    /// Potential energy
-    pub u: f64,
-}
-
-/// Has methods to manipulate the pendulum.
-pub mod simulator {
-    mod init;
-    mod integrate;
-    /// Initialises a pendulum and return it.
-    pub fn init(nitems: usize) -> crate::Pendulum {
-        let p: crate::Pendulum = init::entrypoint(nitems);
-        return p;
-    }
-    /// Integrates the pendulum in time for one time step.
-    pub fn integrate(p: &mut crate::Pendulum) -> f64 {
-        // time step size is determined by the solver
-        let dt: f64 = integrate::entrypoint(p);
-        return dt;
-    }
-}
-
-/// Calculates the current statistics of the system.
-pub mod logger {
-    mod energy;
-    /// Calculates current energies.
-    pub fn check_energies(p: &crate::Pendulum) -> crate::Energy {
-        return energy::check(p);
-    }
-}
+/// Is invoked when the wasm file is loaded by JS.
+#[wasm_bindgen(start)]
+pub fn init() {}

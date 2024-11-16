@@ -1,20 +1,20 @@
 [package]
-name = "pendulum"
+name = "pendulum_simulator"
 version = "0.1.0"
 edition = "2021"
 authors = ["Naoki Hori"]
 description = "Energy-conserving N-body pendulum simulator"
-repository = "https://github.com/NaokiHori/MinimalCanvasExample"
+repository = "https://github.com/NaokiHori/Pendulum"
+publish = false
 license-file = "LICENSE"
-
-[[bin]]
-name = "pendulum"
-path = "src/main.rs"
 
 [lib]
 name = "pendulum"
-crate-type = ["lib"]
 path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
 
 [features]
 explicit = []
+
+[dependencies]
+wasm-bindgen = { version = "0.2.95" }
