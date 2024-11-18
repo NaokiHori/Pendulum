@@ -16,7 +16,7 @@ First, the base case with :math:`N = 1` is true since
    =
    Q_{0 0}.
 
-Now I assume that the statement is true for :math:`N` and consider with respect to :math:`N + 1`.
+Now we assume that the statement is true for :math:`N` and consider with respect to :math:`N + 1`.
 
 The left-hand-side term of the statement leads to
 

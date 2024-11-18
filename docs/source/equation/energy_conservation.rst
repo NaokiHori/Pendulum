@@ -9,27 +9,27 @@ The conservation of the total energy states that
 
 .. math::
 
-   E
+   \total
    \equiv
-   T
+   \kinetic
    +
-   U
+   \potential
 
 is constant, where
 
 .. math::
 
-   T
+   \kinetic
    &
    =
    \kene,
 
-   U
+   \potential
    &
    =
    \pene.
 
-To derive the energy conservation, I consider to differentiate this equation with respect to time.
+To derive the energy conservation, we consider to differentiate this equation with respect to time.
 
 ***************************
 Kinetic energy contribution
@@ -37,7 +37,7 @@ Kinetic energy contribution
 
 .. math::
 
-   \tder{T}{t}
+   \tder{\kinetic}{t}
    &
    =
    \frac{1}{2} m l^2
@@ -123,7 +123,7 @@ As a result,
 
 .. math::
 
-   \tder{T}{t}
+   \tder{\kinetic}{t}
    &
    =
    m l^2
@@ -169,7 +169,7 @@ The potential energy contribution is
 
 .. math::
 
-   \tder{U}{t}
+   \tder{\potential}{t}
    &
    =
    -
@@ -195,7 +195,7 @@ The temporal derivative of the total energy results in
 
 .. math::
 
-   \tder{E}{t}
+   \tder{\total}{t}
    =
    \sum_{\ia = 0}^{N - 1}
    \vel_{\ia}

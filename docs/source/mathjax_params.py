@@ -19,6 +19,10 @@ macros["vel"] = "{\\omega}"
 # trigonometric matrices
 macros["cmat"] = ["{\\cos \\left( \\pos_{#1} - \\pos_{#2} \\right)}", 2]
 macros["smat"] = ["{\\sin \\left( \\pos_{#1} - \\pos_{#2} \\right)}", 2]
+# energies
+macros["kinetic"]   = "{K}"
+macros["potential"] = "{U}"
+macros["total"]     = "{E}"
 
 # other relations which appear for several times
 macros["posvec"] = (

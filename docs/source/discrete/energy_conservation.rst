@@ -2,15 +2,15 @@
 Energy conservation
 ###################
 
-To construct a stable scheme, I consider :ref:`the conservation of energy <energy_conservation>`:
+To construct a stable scheme, we consider :ref:`the conservation of energy <energy_conservation>`:
 
 .. math::
 
-   E
+   \total
    \equiv
-   T
+   \kinetic
    +
-   U
+   \potential
    =
    const.,
 
@@ -18,12 +18,12 @@ where
 
 .. math::
 
-   T
+   \kinetic
    &
    =
    \kene,
 
-   U
+   \potential
    &
    =
    \pene.
@@ -34,7 +34,7 @@ Kinetic energy part
 
 .. math::
 
-   \dder{T}{t}
+   \dder{\kinetic}{t}
    &
    =
    \frac{1}{2} m l^2
@@ -207,11 +207,11 @@ Note that
 
 is assumed.
 
-As a result, I have
+As a result, we have
 
 .. math::
 
-   \dder{T}{t}
+   \dder{\kinetic}{t}
    &
    =
    m l^2
@@ -300,7 +300,7 @@ Potential energy part
 
 .. math::
 
-   \dder{U}{t}
+   \dder{\potential}{t}
    &
    =
    -
@@ -328,7 +328,7 @@ The change of the total energy results in
 
 .. math::
 
-   \dder{E}{t}
+   \dder{\total}{t}
    &
    =
    m l^2
@@ -393,7 +393,7 @@ Factoring :math:`\ave{\vel_{\ic}}` yields
 
 .. math::
 
-   \dder{E}{t}
+   \dder{\total}{t}
    =
    \sum_{\ic = 0}^{N - 1}
    \ave{\vel_{\ic}}

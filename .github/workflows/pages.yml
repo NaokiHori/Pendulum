@@ -36,14 +36,6 @@ jobs:
       - name: Build WASM binary and glue code
         run: |
           wasm-pack build --target web
-      # - name: Build crate documentation
-      #   run: |
-      #     cargo doc \
-      #       --no-deps \
-      #       --document-private-items \
-      #       --package=pendulum_simulator
-      #     mkdir ${{ env.ASSETS }}/rustdoc
-      #     mv target/doc/* ${{ env.ASSETS }}/rustdoc
       - name: Build web application
         run: |
           npx \

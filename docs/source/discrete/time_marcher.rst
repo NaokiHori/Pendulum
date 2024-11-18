@@ -2,7 +2,7 @@
 Time marcher
 ############
 
-I adopt the classical Crank-Nicolson scheme to discretise the evolution of the generalised positions:
+We adopt the classical Crank-Nicolson scheme to discretize the evolution of the generalized positions:
 
 .. math::
 
@@ -10,13 +10,13 @@ I adopt the classical Crank-Nicolson scheme to discretise the evolution of the g
    =
    \ave{\vel_{\ia}},
 
-while the generalised velocities are evolved using the energy-conserving scheme:
+while the generalized velocities are evolved using the energy-conserving scheme:
 
 .. math::
 
    \dlag.
 
-To this end, I need to solve a linear system with respect to :math:`\dif{\vel_{\ib}}`:
+To this end, we need to solve a linear system with respect to :math:`\dif{\vel_{\ib}}`:
 
 .. math::
 

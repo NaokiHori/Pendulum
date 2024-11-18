@@ -5,26 +5,26 @@
 Potential energy
 ################
 
-The potential energy of the :math:`\ib`-th object :math:`U_{\ib}` is given by
+The potential energy of the :math:`\ib`-th object :math:`\potential_{\ib}` is given by
 
 .. math::
 
-   U_{\ib}
+   \potential_{\ib}
    \equiv
    -
    m g
    \sum_{\ic = 0}^{\ib}
    l \sin \pos_{\ic}.
 
-Thus the total potential energy :math:`U` is
+Thus the total potential energy :math:`\potential` is
 
 .. math::
 
-   U
+   \potential
    &
    \equiv
    \sum_{\ib = 0}^{N-1}
-   U_{\ib}
+   \potential_{\ib}
 
    &
    =
@@ -46,17 +46,17 @@ First,
 
 .. math::
 
-   \tder{}{t} \pder{U}{\vel_{\ia}}
+   \tder{}{t} \pder{\potential}{\vel_{\ia}}
    =
    0
 
-since :math:`U` is not a function of :math:`\vel_{\ia}`.
+since :math:`\potential` is not a function of :math:`\vel_{\ia}`.
 
-On the other hand, I have
+On the other hand, we have
 
 .. math::
 
-   \pder{U}{\pos_{\ia}}
+   \pder{\potential}{\pos_{\ia}}
    &
    =
    -
@@ -89,3 +89,4 @@ On the other hand, I have
    m g l
    \left( N - \ia \right)
    \cos \pos_{\ia}.
+

@@ -1,12 +1,12 @@
 
-.. _discretisation:
+.. _discretization:
 
 ##############
-Discretisation
+Discretization
 ##############
 
 *************
-Normalisation
+Normalization
 *************
 
 As derived in :ref:`the governing equation <governing_equation>`, there are :math:`2 N` unknowns
@@ -31,7 +31,7 @@ and :math:`2 N` equations:
    =
    0_{\ia}.
 
-In addition to the fact that the equations being :math:`m`-independent, I normalise these equations by the reference length scale :math:`l` and by the reference time scale :math:`\sqrt{l / g}`, giving
+In addition to the fact that the equations being :math:`m`-independent, we normalize these equations by the reference length scale :math:`l` and by the reference time scale :math:`\sqrt{l / g}`, giving
 
 .. math::
 

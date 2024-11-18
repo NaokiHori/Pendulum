@@ -5,7 +5,7 @@
 Kinetic energy
 ##############
 
-To begin with, I consider the velocity of the :math:`\ia`-th object on the Cartesian coordinate.
+To begin with, we consider the velocity of the :math:`\ia`-th object on the Cartesian coordinate.
 
 The time derivative of the position vector:
 
@@ -27,7 +27,7 @@ The kinetic energy of this object is given by
 
 .. math::
 
-   T_{\ia}
+   \kinetic_{\ia}
    =
    \frac{1}{2} m
    \left( \sum_{\ib = 0}^{\ia} l \vel_{\ib} \sin{ \pos_{\ib} } \right)^2
@@ -39,10 +39,10 @@ and thus the total kinetic energy of the system is
 
 .. math::
 
-   T
+   \kinetic
    &
    \equiv
-   \sum_{\ia = 0}^{N - 1} T_{\ia}
+   \sum_{\ia = 0}^{N - 1} \kinetic_{\ia}
 
    &
    =
@@ -75,7 +75,7 @@ and thus the total kinetic energy of the system is
    \vel_{\ib} \vel_{\ic}
    \cos \left( \pos_{\ib} - \pos_{\ic} \right).
 
-To proceed, I use the identity:
+To proceed, we use the identity:
 
 .. math::
 
@@ -95,23 +95,23 @@ To proceed, I use the identity:
 
    .. include:: summation.rst
 
-As a consequence, I obtain
+As a consequence, we obtain
 
 .. math::
 
-   T
+   \kinetic
    =
    \kene.
 
 *************************
-Generalised velocity part
+Generalized velocity part
 *************************
 
-First of all, I consider
+First of all, we consider
 
 .. math::
 
-   \pder{T}{\vel_{\ia}}
+   \pder{\kinetic}{\vel_{\ia}}
    &
    =
    \frac{1}{2} m l^2
@@ -136,7 +136,7 @@ where the two terms are equal by interchanging the indices to obtain
 
 .. math::
 
-   \pder{T}{\vel_{\ia}}
+   \pder{\kinetic}{\vel_{\ia}}
    &
    =
    m l^2
@@ -177,7 +177,7 @@ Differentiating this relation with respect to time leads to
 
 .. math::
 
-   \tder{}{t} \pder{T}{\vel_{\ia}}
+   \tder{}{t} \pder{\kinetic}{\vel_{\ia}}
    &
    =
    m l^2
@@ -207,12 +207,12 @@ Differentiating this relation with respect to time leads to
    \sin \left( \pos_{\ia} - \pos_{\ib} \right).
 
 ***************************
-Generalised coordinate part
+Generalized coordinate part
 ***************************
 
 .. math::
 
-   \pder{T}{\pos_{\ia}}
+   \pder{\kinetic}{\pos_{\ia}}
    &
    =
    \frac{1}{2} m l^2
@@ -296,9 +296,9 @@ In the Lagrange's equation, the following terms contribute:
 
 .. math::
 
-   \tder{}{t} \pder{T}{\vel_{\ia}}
+   \tder{}{t} \pder{\kinetic}{\vel_{\ia}}
    -
-   \pder{T}{\pos_{\ia}}
+   \pder{\kinetic}{\pos_{\ia}}
    &
    =
    m l^2
