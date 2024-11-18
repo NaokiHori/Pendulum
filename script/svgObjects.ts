@@ -1,3 +1,5 @@
+import { checkUseLogo, logoSvg } from "./logo";
+
 export function initSVGObjects(
   svg: SVGElement,
   nitems: number,
@@ -21,18 +23,27 @@ export function initSVGObjects(
     svg.appendChild(line);
     lines.push(line);
   }
+  const useLogo: boolean = checkUseLogo(nitems);
   const circles = new Array<Element>();
   for (let i = 0; i < nitems; i++) {
-    const circle: Element = document.createElementNS(namespaceURI, "circle");
-    circle.setAttribute("r", radius.toString());
-    circle.setAttribute("fill", "#f00");
-    svg.appendChild(circle);
-    circles.push(circle);
+    if (useLogo) {
+      const circle: Element = document.createElementNS(namespaceURI, "g");
+      circle.innerHTML = logoSvg;
+      svg.appendChild(circle);
+      circles.push(circle);
+    } else {
+      const circle: Element = document.createElementNS(namespaceURI, "circle");
+      circle.setAttribute("r", radius.toString());
+      circle.setAttribute("fill", "#f00");
+      svg.appendChild(circle);
+      circles.push(circle);
+    }
   }
   return { lines, circles };
 }
 
 export function drawSVGObjects(
+  nitems: number,
   positions: Float64Array,
   lines: Element[],
   circles: Element[],
@@ -47,10 +58,18 @@ export function drawSVGObjects(
     line.setAttribute("x2", x2.toString());
     line.setAttribute("y2", y2.toString());
   }
+  const useLogo: boolean = checkUseLogo(nitems);
   for (const [index, circle] of circles.entries()) {
     const x: number = positions[2 * index];
     const y: number = positions[2 * index + 1];
-    circle.setAttribute("cx", x.toString());
-    circle.setAttribute("cy", y.toString());
+    if (useLogo) {
+      circle.setAttribute(
+        "transform",
+        `translate(${x.toString()}, ${y.toString()}) scale(0.005)`,
+      );
+    } else {
+      circle.setAttribute("cx", x.toString());
+      circle.setAttribute("cy", y.toString());
+    }
   }
 }

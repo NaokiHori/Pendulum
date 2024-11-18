@@ -18,6 +18,7 @@ pub struct Wrapper {
 #[wasm_bindgen]
 impl Wrapper {
     /// Constructor.
+    #[wasm_bindgen(constructor)]
     pub fn new(nitems: usize) -> Self {
         let pendulum = Pendulum::new(nitems);
         let positions = vec![0f64; nitems * 2];

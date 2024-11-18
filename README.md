@@ -46,4 +46,3 @@ Visit [the documentation](https://naokihori.github.io/Pendulum/docs) to see how 
 ## [日本語記事](https://qiita.com/NaokiHori/items/736cf183c20eb2e91247)
 
 Qiitaに投稿しました。
-

@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
       const { lines, circles }: { lines: Element[]; circles: Element[] } =
         initSVGObjects(svgElement, nitems);
       // initialize simulator
-      const wrapper = Wrapper.new(nitems);
+      const wrapper = new Wrapper(nitems);
       // make the canvas (container / image) full-screen
       adjustSVGSize(container, svgElement);
       // register synchronization as an event as well
@@ -30,13 +30,14 @@ window.addEventListener("load", () => {
         // integrate in time to get new information
         wrapper.integrate();
         counter.update();
-        // fetch shared memory
+        // create a view to the shared memory
+        // NOTE: this should be called every time as the pointer seems to be changed
         const positions = new Float64Array(
           wasm.memory.buffer,
           wrapper.get_positions(),
           nitems * 2,
         );
-        drawSVGObjects(positions, lines, circles);
+        drawSVGObjects(nitems, positions, lines, circles);
         if (0 === counter.get()) {
           const energies: Energy = wrapper.check_energies();
           const kinetic: number = energies.kinetic;

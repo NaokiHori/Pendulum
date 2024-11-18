@@ -39,4 +39,3 @@ jobs:
           git add artifacts
           git commit -m "Update image" -a || true
           git push -f origin artifact
-
