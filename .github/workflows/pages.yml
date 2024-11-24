@@ -38,6 +38,7 @@ jobs:
           wasm-pack build --target web
       - name: Build web application
         run: |
+          npm run check
           npx \
             vite build \
             --outDir=${{ env.ASSETS }} \
