@@ -9,23 +9,11 @@
 
 [![Thumbnail](https://github.com/NaokiHori/Pendulum/blob/main/docs/source/thumbnail.gif)](https://youtu.be/UQg8x4yleWE)
 
-## Overview
-
-This library simulates the motion of N-body pendulums.
-
-By using an interesting yet a very simple topic, the main objective is to create a project where
-
-- the main simulator,
-- the background information (the equations, the numerical methods), and
-- the user interface (the visualizer)
-
-are all included and properly combined.
-
 ## Quick Start
 
-Visit [the website](https://naokihori.github.io/Pendulum/), where an online simulator is available (note that it consumes some amount of your CPU resources).
+Visit [the website](https://naokihori.github.io/Pendulum/), where an online simulator is available.
 
-The simulator and the surrounding interfaces are implemented in `Rust`, which are converted into `WebAssembly` for real-time executions powered by [wasm-bindgen](https://rustwasm.github.io/docs/wasm-bindgen/).
+The simulator and the surrounding interfaces are implemented in `Rust`, which are converted into `WebAssembly` for real-time executions powered by [`wasm-bindgen`](https://rustwasm.github.io/docs/wasm-bindgen/).
 
 [All recent browsers should be supported in theory](https://webassembly.org/features/).
 The following have been checked:
@@ -45,4 +33,4 @@ Visit [the documentation](https://naokihori.github.io/Pendulum/docs) to see how 
 
 ## [日本語記事](https://qiita.com/NaokiHori/items/736cf183c20eb2e91247)
 
-Qiitaに投稿しました。
+エネルギ保存性に関して述べた簡単な記事をQiitaに投稿しました。
