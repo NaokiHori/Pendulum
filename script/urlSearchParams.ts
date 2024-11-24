@@ -1,20 +1,22 @@
 export function getNitems(): number {
   // check if URL param is given
   const urlParams = new URLSearchParams(window.location.search);
-  let nitems = 2;
-  const maxNitems = 8;
+  const minNitems = 2;
+  const maxNitems = 10;
   if (urlParams.has("nitems")) {
     // if given, use after sanitised
-    let tmp: number | null = Number(urlParams.get("nitems"));
-    if (tmp) {
-      tmp = tmp < maxNitems ? tmp : maxNitems;
-      tmp = 1 < tmp ? tmp : 1;
-      tmp = Math.floor(tmp);
-      nitems = tmp;
+    let nitems: number | null = Number(urlParams.get("nitems"));
+    if (nitems) {
+      nitems = Math.round(nitems);
+      nitems = nitems < maxNitems ? nitems : maxNitems;
+      nitems = minNitems < nitems ? nitems : minNitems;
+      return nitems;
+    } else {
+      // decide randomly if the input is invalid
+      return Math.floor((maxNitems - 1) * Math.random() + minNitems);
     }
   } else {
     // decide randomly
-    nitems = Math.floor((maxNitems - 1) * Math.random() + 2);
+    return Math.floor((maxNitems - 1) * Math.random() + minNitems);
   }
-  return nitems;
 }
