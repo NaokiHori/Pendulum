@@ -51,6 +51,9 @@ jobs:
             -w /project \
             sphinxdoc/sphinx:latest \
             sphinx-build docs/source ${{ env.ASSETS }}/docs
+      - name: Attach thumbnail to the root
+        run: |
+          cp docs/source/thumbnail.jpg ${{ env.ASSETS }}/
       - name: Setup GitHub Pages
         uses: actions/configure-pages@main
       - name: Upload HTML

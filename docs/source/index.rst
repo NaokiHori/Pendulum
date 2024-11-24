@@ -2,7 +2,7 @@
 Pendulum
 ########
 
-.. image:: ./thumbnail.png
+.. image:: ./thumbnail.jpg
    :width: 80%
    :align: center
 
