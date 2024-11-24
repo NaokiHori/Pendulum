@@ -25,16 +25,19 @@ export function initSVGObjects(
   }
   const useLogo: boolean = checkUseLogo(nitems);
   const circles = new Array<Element>();
-  for (let i = 0; i < nitems; i++) {
-    if (useLogo) {
+  if (useLogo) {
+    for (let i = 0; i < nitems; i++) {
       const circle: Element = document.createElementNS(namespaceURI, "g");
       circle.innerHTML = logoSvg;
       svg.appendChild(circle);
       circles.push(circle);
-    } else {
+    }
+  } else {
+    for (let i = 0; i < nitems; i++) {
       const circle: Element = document.createElementNS(namespaceURI, "circle");
       circle.setAttribute("r", radius.toString());
-      circle.setAttribute("fill", "#f00");
+      const hue = Math.round((360 * i) / nitems);
+      circle.setAttribute("fill", `hsl(${hue.toString()}deg 100% 80%)`);
       svg.appendChild(circle);
       circles.push(circle);
     }
