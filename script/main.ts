@@ -2,7 +2,7 @@ import initWasm, { Wrapper, InitOutput, Energy } from "../pkg";
 import { getHTMLElement, getSVGElement, adjustSVGSize } from "./dom";
 import { getNitems } from "./urlSearchParams";
 import { initSVGObjects, drawSVGObjects } from "./svgObjects";
-import { Counter } from "./counter";
+import { Timer } from "./timer";
 
 async function main() {
   const wasm: InitOutput = await initWasm();
@@ -23,12 +23,21 @@ async function main() {
     adjustSVGSize(container, svgElement);
   });
   // compute and print energies periodically
-  const counter = new Counter(100);
+  // this is registered to the timer (profiler)
+  const handleTimerReset = (): void => {
+    const energies: Energy = wrapper.check_energies();
+    const kinetic: number = energies.kinetic;
+    const potential: number = energies.potential;
+    const total: number = kinetic + potential;
+    console.log(
+      `kinetic: ${kinetic.toString()} potential: ${potential.toString()} total: ${total.toString()}`,
+    );
+  };
+  const timer = new Timer(1000, handleTimerReset);
   // animation kernel
   function updateAndDraw() {
     // integrate in time to get new information
     wrapper.integrate();
-    counter.update();
     // create a view to the shared memory
     // NOTE: this should be called every time as the pointer seems to be changed
     const positions = new Float64Array(
@@ -37,15 +46,7 @@ async function main() {
       nitems * 2,
     );
     drawSVGObjects(nitems, positions, lines, circles);
-    if (0 === counter.get()) {
-      const energies: Energy = wrapper.check_energies();
-      const kinetic: number = energies.kinetic;
-      const potential: number = energies.potential;
-      const total: number = kinetic + potential;
-      console.log(
-        `kinetic: ${kinetic.toString()} potential: ${potential.toString()} total: ${total.toString()}`,
-      );
-    }
+    timer.update();
     // set myself as the callback
     requestAnimationFrame(updateAndDraw);
   }
