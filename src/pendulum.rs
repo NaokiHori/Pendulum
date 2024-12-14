@@ -12,13 +12,10 @@
 //! ```
 //! Note that the time step size `dt` is decided by the integrator and not to be specified.
 
-//! Integrates the equation to update a pendulum for one step.
-mod integrator {
-    #[cfg(feature = "explicit")]
-    pub mod explicit;
-    #[cfg(not(feature = "explicit"))]
-    pub mod implicit;
-}
+#[cfg(feature = "explicit")]
+pub mod explicit_integrator;
+#[cfg(not(feature = "explicit"))]
+pub mod implicit_integrator;
 
 use wasm_bindgen::prelude::*;
 
@@ -85,7 +82,7 @@ impl Pendulum {
         let arr_buf: &mut Vec<f64> = &mut self.arr_buf;
         #[cfg(not(feature = "explicit"))]
         {
-            use integrator::implicit::integrate;
+            use implicit_integrator::integrate;
             let vec_buf1: &mut Vec<f64> = &mut self.vec_buf1;
             *dt *= 2f64;
             loop {
@@ -99,7 +96,7 @@ impl Pendulum {
         }
         #[cfg(feature = "explicit")]
         {
-            use integrator::explicit::integrate;
+            use explicit_integrator::integrate;
             // NOTE: ad-hoc way to decide `dt`
             *dt = 1e-3f64 / nitems as f64;
             integrate(*dt, nitems, velocities, positions, vec_buf0, arr_buf);
