@@ -1,4 +1,5 @@
-import { checkUseLogo, logoSvg } from "./logo";
+import { checkUseLogo } from "./logo";
+import logoSvg from "./logo.svg";
 
 export function initSVGObjects(
   svg: SVGElement,
