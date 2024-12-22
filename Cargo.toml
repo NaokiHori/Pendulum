@@ -1,5 +1,5 @@
 [package]
-name = "pendulum_simulator"
+name = "pendulum"
 version = "0.1.0"
 edition = "2021"
 authors = ["Naoki Hori"]
@@ -23,4 +23,4 @@ explicit = []
 binary = []
 
 [dependencies]
-wasm-bindgen = { version = "0.2.95" }
+wasm-bindgen = { version = "0.2.99" }
