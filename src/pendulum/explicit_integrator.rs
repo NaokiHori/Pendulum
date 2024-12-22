@@ -54,6 +54,9 @@ fn get_new_values(v_old: f64, a_old: f64, dv: f64, dt: f64) -> [f64; 2] {
     [v_new, a_new]
 }
 
+/// Core function of the integrator.
+///
+/// This function integrates the discrete governing equations in time by means of a fully-explicit scheme.
 #[cfg(feature = "explicit")]
 pub fn integrate(
     dt: f64,
