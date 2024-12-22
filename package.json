@@ -1,5 +1,5 @@
 {
-  "name": "wasm-canvas",
+  "name": "pendulum",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,8 +11,8 @@
   },
   "lint-staged": {
     "*.{js,ts,md,html}": [
-      "prettier . --write",
-      "eslint --cache --fix"
+      "eslint --cache --fix",
+      "prettier . --write"
     ]
   },
   "devDependencies": {

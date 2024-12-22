@@ -11,7 +11,6 @@ license-file = "LICENSE"
 [[bin]]
 name = "pendulum"
 path = "src/main.rs"
-features = ["binary"]
 
 [lib]
 name = "pendulum"
@@ -20,7 +19,9 @@ crate-type = ["cdylib", "rlib"]
 
 [features]
 explicit = []
-binary = []
+library-crate = ["wasm-bindgen"]
 
-[dependencies]
-wasm-bindgen = { version = "0.2.99" }
+[dependencies.wasm-bindgen]
+version = "0.2.99"
+default-features = false
+optional = true

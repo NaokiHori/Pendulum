@@ -12,7 +12,7 @@
 //! ```
 //! Note that the time step size `dt` is decided by the integrator and not to be specified.
 
-#[cfg(not(feature = "binary"))]
+#[cfg(feature = "library-crate")]
 use wasm_bindgen::prelude::*;
 
 #[cfg(feature = "explicit")]
@@ -21,7 +21,7 @@ pub mod explicit_integrator;
 pub mod implicit_integrator;
 
 /// Main struct, storing state of a pendulum and methods to update myself.
-#[cfg_attr(not(feature = "binary"), wasm_bindgen)]
+#[cfg_attr(feature = "library-crate", wasm_bindgen)]
 pub struct Pendulum {
     /// Number of masses.
     nitems: usize,
@@ -42,21 +42,12 @@ pub struct Pendulum {
     cartesian_positions: Vec<f64>,
 }
 
-/// Stores kinetic and the potential energies.
-#[cfg_attr(not(feature = "binary"), wasm_bindgen)]
-pub struct Energy {
-    /// Kinetic energy
-    pub kinetic: f64,
-    /// Potential energy
-    pub potential: f64,
-}
-
-#[cfg_attr(not(feature = "binary"), wasm_bindgen)]
+#[cfg_attr(feature = "library-crate", wasm_bindgen)]
 impl Pendulum {
     /// Constructor to initialize a pendulum.
     ///
     /// See [the example](https://naokihori.github.io/Pendulum/docs/example/main.html) which explains why this specific condition is chosen.
-    #[cfg_attr(not(feature = "binary"), wasm_bindgen(constructor))]
+    #[cfg_attr(feature = "library-crate", wasm_bindgen(constructor))]
     pub fn new(nitems: usize) -> Self {
         let v0: f64 = (6f64 / (2 * nitems + 1) as f64).sqrt();
         let velocities = vec![v0; nitems];
@@ -152,13 +143,13 @@ impl Pendulum {
     }
 
     /// Getter, (angular) velocities.
-    #[cfg(feature = "binary")]
+    #[cfg(not(feature = "library-crate"))]
     pub fn velocities(&self) -> &Vec<f64> {
         &self.velocities
     }
 
     /// Getter, positions (angles).
-    #[cfg(feature = "binary")]
+    #[cfg(not(feature = "library-crate"))]
     pub fn positions(&self) -> &Vec<f64> {
         &self.positions
     }
@@ -179,4 +170,13 @@ impl Pendulum {
         }
         positions.as_ptr()
     }
+}
+
+/// Stores kinetic and the potential energies.
+#[cfg_attr(feature = "library-crate", wasm_bindgen)]
+pub struct Energy {
+    /// Kinetic energy
+    pub kinetic: f64,
+    /// Potential energy
+    pub potential: f64,
 }

@@ -1,6 +1,6 @@
 #![deny(missing_docs)]
 
-//! Simulates N-body pendulums.
+//! Simulates N-body pendulum.
 
 use pendulum::{Energy, Pendulum};
 

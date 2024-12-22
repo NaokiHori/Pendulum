@@ -9,7 +9,7 @@ mkdir ${outdir}
 
 # implicit scheme
 rm -f energy.dat
-cargo run --release > implicit.log
+cargo run --release --features "binary-crate" > implicit.log
 python3 \
   docs/source/example/data/energy.py \
   energy.dat \
@@ -18,7 +18,7 @@ python3 \
 
 # explicit scheme
 rm -f energy.dat
-cargo run --release --features=explicit > explicit.log
+cargo run --release --features "binary-crate explicit" > explicit.log
 python3 \
   docs/source/example/data/energy.py \
   energy.dat \
