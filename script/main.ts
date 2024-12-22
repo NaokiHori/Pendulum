@@ -1,11 +1,11 @@
-import initWasm, { Wrapper, InitOutput, Energy } from "../pkg";
+import wbgInit, { Wrapper, InitOutput, Energy } from "../pkg";
 import { getHTMLElement, getSVGElement, adjustSVGSize } from "./dom";
 import { getNitems } from "./urlSearchParams";
 import { initSVGObjects, drawSVGObjects } from "./svgObjects";
 import { Timer } from "./timer";
 
 async function main() {
-  const wasm: InitOutput = await initWasm();
+  const wbgModule: InitOutput = await wbgInit();
   // number of masses, given by user or decide randomly
   const nitems: number = getNitems();
   // fetch DOMs
@@ -34,28 +34,38 @@ async function main() {
     );
   };
   const timer = new Timer(1000, handleTimerReset);
-  // animation kernel
+  // rendering loop
   function updateAndDraw() {
     // integrate in time to get new information
-    wrapper.integrate();
+    const drawFreq = 5e-2;
+    for (let time = 0; ; ) {
+      const dt: number = wrapper.integrate();
+      time += dt;
+      if (drawFreq < time) {
+        break;
+      }
+    }
     // create a view to the shared memory
     // NOTE: this should be called every time as the pointer seems to be changed
     const positions = new Float64Array(
-      wasm.memory.buffer,
+      wbgModule.memory.buffer,
       wrapper.get_positions(),
       nitems * 2,
     );
     drawSVGObjects(nitems, positions, lines, circles);
     timer.update();
-    // set myself as the callback
     requestAnimationFrame(updateAndDraw);
   }
-  // trigger first animation flow
+  // trigger first rendering
   updateAndDraw();
 }
 
 window.addEventListener("load", () => {
   main().catch((error: unknown) => {
-    throw error;
+    if (error instanceof Error) {
+      console.error(error);
+    } else {
+      throw error;
+    }
   });
 });

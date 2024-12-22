@@ -29,18 +29,9 @@ impl Wrapper {
     }
 
     /// Integrator.
-    pub fn integrate(&mut self) {
-        // loop until desired time is reached
-        let rate = 5e-2f64;
-        // update pendulum
-        let mut time = 0f64;
-        loop {
-            let dt: f64 = self.pendulum.integrate();
-            time += dt;
-            if rate < time {
-                break;
-            }
-        }
+    pub fn integrate(&mut self) -> f64 {
+        let dt: f64 = self.pendulum.integrate();
+        dt
     }
 
     /// Returns a pointer to the current mass positions in Cartesian coordinates.
