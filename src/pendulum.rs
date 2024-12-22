@@ -12,14 +12,16 @@
 //! ```
 //! Note that the time step size `dt` is decided by the integrator and not to be specified.
 
+#[cfg(not(feature = "binary"))]
+use wasm_bindgen::prelude::*;
+
 #[cfg(feature = "explicit")]
 pub mod explicit_integrator;
 #[cfg(not(feature = "explicit"))]
 pub mod implicit_integrator;
 
-use wasm_bindgen::prelude::*;
-
 /// Main struct, storing state of a pendulum and methods to update myself.
+#[cfg_attr(not(feature = "binary"), wasm_bindgen)]
 pub struct Pendulum {
     /// Number of masses.
     nitems: usize,
@@ -36,10 +38,12 @@ pub struct Pendulum {
     vec_buf1: Vec<f64>,
     /// Internal vector buffers.
     arr_buf: Vec<f64>,
+    /// Locations of particles in Cartesian coordinate.
+    cartesian_positions: Vec<f64>,
 }
 
 /// Stores kinetic and the potential energies.
-#[wasm_bindgen]
+#[cfg_attr(not(feature = "binary"), wasm_bindgen)]
 pub struct Energy {
     /// Kinetic energy
     pub kinetic: f64,
@@ -47,10 +51,12 @@ pub struct Energy {
     pub potential: f64,
 }
 
+#[cfg_attr(not(feature = "binary"), wasm_bindgen)]
 impl Pendulum {
     /// Constructor to initialize a pendulum.
     ///
     /// See [the example](https://naokihori.github.io/Pendulum/docs/example/main.html) which explains why this specific condition is chosen.
+    #[cfg_attr(not(feature = "binary"), wasm_bindgen(constructor))]
     pub fn new(nitems: usize) -> Self {
         let v0: f64 = (6f64 / (2 * nitems + 1) as f64).sqrt();
         let velocities = vec![v0; nitems];
@@ -60,6 +66,7 @@ impl Pendulum {
         #[cfg(not(feature = "explicit"))]
         let vec_buf1 = vec![0f64; nitems];
         let arr_buf = vec![0f64; nitems * nitems];
+        let cartesian_positions = vec![0f64; 2 * nitems];
         Self {
             nitems,
             positions,
@@ -69,6 +76,7 @@ impl Pendulum {
             #[cfg(not(feature = "explicit"))]
             vec_buf1,
             arr_buf,
+            cartesian_positions,
         }
     }
 
@@ -139,17 +147,36 @@ impl Pendulum {
     }
 
     /// Getter, number of masses.
-    pub fn get_nitems(&self) -> usize {
+    pub fn nitems(&self) -> usize {
         self.nitems
     }
 
     /// Getter, (angular) velocities.
-    pub fn get_velocities(&self) -> &Vec<f64> {
+    #[cfg(feature = "binary")]
+    pub fn velocities(&self) -> &Vec<f64> {
         &self.velocities
     }
 
     /// Getter, positions (angles).
-    pub fn get_positions(&self) -> &Vec<f64> {
+    #[cfg(feature = "binary")]
+    pub fn positions(&self) -> &Vec<f64> {
         &self.positions
+    }
+
+    /// Returns a pointer to the current mass positions in Cartesian coordinates.
+    pub fn get_cartesian_positions(&mut self) -> *const f64 {
+        let angles: &[f64] = &self.positions;
+        let positions: &mut [f64] = &mut self.cartesian_positions;
+        let mut x = 0f64;
+        let mut y = 0f64;
+        for (n, angle) in angles.iter().enumerate() {
+            x += angle.cos();
+            y += angle.sin();
+            let x_index: usize = 2usize * n;
+            let y_index: usize = 2usize * n + 1usize;
+            positions[x_index] = x;
+            positions[y_index] = y;
+        }
+        positions.as_ptr()
     }
 }

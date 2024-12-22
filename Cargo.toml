@@ -8,6 +8,11 @@ repository = "https://github.com/NaokiHori/Pendulum"
 publish = false
 license-file = "LICENSE"
 
+[[bin]]
+name = "pendulum"
+path = "src/main.rs"
+features = ["binary"]
+
 [lib]
 name = "pendulum"
 path = "src/lib.rs"
@@ -15,6 +20,7 @@ crate-type = ["cdylib", "rlib"]
 
 [features]
 explicit = []
+binary = []
 
 [dependencies]
 wasm-bindgen = { version = "0.2.95" }

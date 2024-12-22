@@ -1,4 +1,4 @@
-import wbgInit, { Wrapper, InitOutput, Energy } from "../pkg";
+import wbgInit, { Pendulum, InitOutput, Energy } from "../pkg";
 import { getHTMLElement, getSVGElement, adjustSVGSize } from "./dom";
 import { getNitems } from "./urlSearchParams";
 import { initSVGObjects, drawSVGObjects } from "./svgObjects";
@@ -15,7 +15,7 @@ async function main() {
   const { lines, circles }: { lines: Element[]; circles: Element[] } =
     initSVGObjects(svgElement, nitems);
   // initialize simulator
-  const wrapper = new Wrapper(nitems);
+  const pendulum = new Pendulum(nitems);
   // make the canvas (container / image) full-screen
   adjustSVGSize(container, svgElement);
   // register synchronization as an event as well
@@ -25,7 +25,7 @@ async function main() {
   // compute and print energies periodically
   // this is registered to the timer (profiler)
   const handleTimerReset = (): void => {
-    const energies: Energy = wrapper.check_energies();
+    const energies: Energy = pendulum.check_energies();
     const kinetic: number = energies.kinetic;
     const potential: number = energies.potential;
     const total: number = kinetic + potential;
@@ -39,7 +39,7 @@ async function main() {
     // integrate in time to get new information
     const drawFreq = 5e-2;
     for (let time = 0; ; ) {
-      const dt: number = wrapper.integrate();
+      const dt: number = pendulum.integrate();
       time += dt;
       if (drawFreq < time) {
         break;
@@ -49,7 +49,7 @@ async function main() {
     // NOTE: this should be called every time as the pointer seems to be changed
     const positions = new Float64Array(
       wbgModule.memory.buffer,
-      wrapper.get_positions(),
+      pendulum.get_cartesian_positions(),
       nitems * 2,
     );
     drawSVGObjects(nitems, positions, lines, circles);
