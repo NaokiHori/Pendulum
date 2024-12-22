@@ -29,9 +29,9 @@ async function main() {
     const kinetic: number = energies.kinetic;
     const potential: number = energies.potential;
     const total: number = kinetic + potential;
-    console.log(
-      `kinetic: ${kinetic.toString()} potential: ${potential.toString()} total: ${total.toString()}`,
-    );
+    console.log(`  kinetic: ${kinetic.toString()}`);
+    console.log(`  potential: ${potential.toString()}`);
+    console.log(`  total: ${total.toString()}`);
   };
   const timer = new Timer(1000, handleTimerReset);
   // rendering loop
