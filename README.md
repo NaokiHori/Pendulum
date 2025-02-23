@@ -16,7 +16,7 @@ Visit [the website](https://naokihori.github.io/Pendulum/), where an online simu
 The simulator and the surrounding interfaces are implemented in `Rust`, which are converted into `WebAssembly` for real-time executions powered by [`wasm-bindgen`](https://rustwasm.github.io/docs/wasm-bindgen/).
 
 [All recent browsers should be supported in theory](https://webassembly.org/features/).
-The following have been checked:
+At least I have checked:
 
 - Chrome 120.0.6099.119
 - Safari 17.1
@@ -31,6 +31,6 @@ Although trivial in theory, achieving this property is challenging and requires 
 
 Visit [the documentation](https://naokihori.github.io/Pendulum/docs) to see how [the numerical methods](https://naokihori.github.io/Pendulum/docs/discrete/main.html) work and how different [the results](https://naokihori.github.io/Pendulum/docs/example/main.html) are.
 
-## [日本語記事](https://qiita.com/NaokiHori/items/736cf183c20eb2e91247)
+## 日本語記事（An article written in Japanese）
 
-エネルギ保存性に関して述べた簡単な記事をQiitaに投稿しました。
+[エネルギ保存性に関して述べた記事](https://qiita.com/NaokiHori/items/736cf183c20eb2e91247)をQiitaに投稿しました。
