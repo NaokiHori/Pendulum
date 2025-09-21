@@ -27,8 +27,11 @@ jobs:
           mkdir ${{ env.ASSETS }}
       - name: Setup node
         uses: actions/setup-node@main
+        with:
+          node-version: latest
       - name: Install dependencies
         run: |
+          rm package-lock.json
           npm install
       - name: Install wasm-pack
         run: |
