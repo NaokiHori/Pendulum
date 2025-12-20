@@ -54,9 +54,12 @@ async function main() {
     );
     drawSVGObjects(nitems, positions, lines, circles);
     timer.update();
-    requestAnimationFrame(updateAndDraw);
+    requestAnimationFrame(() => {
+      updateAndDraw();
+    });
   }
   // trigger first rendering
+  timer.start();
   updateAndDraw();
 }
 
