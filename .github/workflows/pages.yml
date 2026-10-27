@@ -17,6 +17,7 @@ jobs:
       contents: read
     env:
       ASSETS: assets
+      IMAGE_NAME_APP: naokihori/pendulum-app
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -34,14 +35,14 @@ jobs:
         run: |
           rm package-lock.json
           npm install
-      - name: Install wasm-pack
+      - name: Build app (Rust)
         run: |
-          cargo install wasm-pack
-      - name: Build rust code
-        run: |
-          wasm-pack build --target web --features "library-crate"
+          cd app
+          docker build -t ${{ env.IMAGE_NAME_APP }} .
+          make build
       - name: Build web application
         run: |
+          mv app/pkg .
           tsc
           npx \
             vite build \
