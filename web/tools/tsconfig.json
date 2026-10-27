@@ -22,6 +22,6 @@
     "incremental": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["script/*", "vite.config.ts"],
+  "include": ["src/*", "vite.config.ts"],
   "exclude": ["node_modules"]
 }
