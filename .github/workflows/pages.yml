@@ -3,25 +3,26 @@ name: Deploy-Pages
 on:
   workflow_dispatch:
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+permissions: {}
+
 jobs:
-  build-and-deploy-doc:
-    name: Build artifacts and deploy them to GH Pages
+  build:
+    name: Build artifacts
+    timeout-minutes: 10
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: "pages"
-      cancel-in-progress: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     env:
       ASSETS: assets
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@main
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
       - name: Make directory to store all artifacts
         run: |
           mkdir ${{ env.ASSETS }}
@@ -57,12 +58,25 @@ jobs:
       - name: Attach thumbnail to the root
         run: |
           cp docs/source/thumbnail.jpg ${{ env.ASSETS }}/
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@main
-      - name: Upload HTML
-        uses: actions/upload-pages-artifact@main
+      - name: Upload artifacts
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: ${{ env.ASSETS }}
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup GitHub Pages
+        id: configure_pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@main
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
