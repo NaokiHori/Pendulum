@@ -20,7 +20,7 @@ build:
 	docker rm $(CONTAINER)
 
 build-image:
-	docker build -t $(IMAGE) .
+	docker build --progress=plain -t $(IMAGE) .
 
 run:
 	docker run \

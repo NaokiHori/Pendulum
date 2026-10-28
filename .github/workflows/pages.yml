@@ -17,9 +17,6 @@ jobs:
       contents: read
     env:
       ASSETS: assets
-      IMAGE_NAME_APP: naokihori/pendulum-app
-      IMAGE_NAME_DOCS: naokihori/pendulum-docs
-      IMAGE_NAME_WEB: naokihori/pendulum-web
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,18 +26,18 @@ jobs:
       - name: Build app (Rust)
         run: |
           cd app
-          docker build -t ${{ env.IMAGE_NAME_APP }} .
+          make build-image
           make build
       - name: Build web (TypeScript)
         run: |
           cd web
-          docker build -t ${{ env.IMAGE_NAME_WEB }} .
+          make build-image
           mv ../app/pkg .
           make build
       - name: Build docs (Python)
         run: |
           cd docs
-          docker build -t ${{ env.IMAGE_NAME_DOCS }} .
+          make build-image
           make build
       - name: Pack all artifacts
         run: |

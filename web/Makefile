@@ -19,6 +19,9 @@ build:
 	docker cp $(CONTAINER):/app/dist ./dist
 	docker rm $(CONTAINER)
 
+build-image:
+	docker build --progress=plain -t $(IMAGE) .
+
 dev:
 	docker run \
     --rm \
