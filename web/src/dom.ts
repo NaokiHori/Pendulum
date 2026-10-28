@@ -1,17 +1,15 @@
-export function getHTMLElement(id: string): HTMLElement {
-  const element: HTMLElement | null = document.getElementById(id);
+export function getElementByIdOrThrow<T extends Element>(
+  type: new (...args: unknown[]) => T,
+  id: string,
+): T {
+  const element = document.querySelector(`#${id}`);
   if (null === element) {
-    throw new Error(`failed to find an element: ${id}`);
+    throw new Error();
+  }
+  if (!(element instanceof type)) {
+    throw new TypeError();
   }
   return element;
-}
-
-export function getSVGElement(id: string): SVGElement {
-  const element: Element | null = document.getElementById(id);
-  if (null === element) {
-    throw new Error(`failed to find an element: ${id}`);
-  }
-  return element as SVGElement;
 }
 
 export function adjustSVGSize(container: HTMLElement, svg: SVGElement) {

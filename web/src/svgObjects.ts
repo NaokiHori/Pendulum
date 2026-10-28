@@ -21,7 +21,7 @@ export function initSVGObjects(
     line.setAttribute("stroke", "#fff");
     line.setAttribute("stroke-width", lineWidth.toString());
     line.setAttribute("stroke-linecap", "round");
-    svg.appendChild(line);
+    svg.append(line);
     lines.push(line);
   }
   const useLogo: boolean = checkUseLogo(nitems);
@@ -30,7 +30,7 @@ export function initSVGObjects(
     for (let i = 0; i < nitems; i++) {
       const circle: Element = document.createElementNS(namespaceURI, "g");
       circle.innerHTML = logoSvg;
-      svg.appendChild(circle);
+      svg.append(circle);
       circles.push(circle);
     }
   } else {
@@ -39,7 +39,7 @@ export function initSVGObjects(
       circle.setAttribute("r", radius.toString());
       const hue = Math.round((360 * i) / nitems);
       circle.setAttribute("fill", `hsl(${hue.toString()}deg 100% 80%)`);
-      svg.appendChild(circle);
+      svg.append(circle);
       circles.push(circle);
     }
   }
@@ -53,8 +53,8 @@ export function drawSVGObjects(
   circles: Element[],
 ) {
   for (const [index, line] of lines.entries()) {
-    const x1: number = 0 == index ? 0 : positions[2 * index - 2];
-    const y1: number = 0 == index ? 0 : positions[2 * index - 1];
+    const x1: number = 0 === index ? 0 : positions[2 * index - 2];
+    const y1: number = 0 === index ? 0 : positions[2 * index - 1];
     const x2: number = positions[2 * index + 0];
     const y2: number = positions[2 * index + 1];
     line.setAttribute("x1", x1.toString());
@@ -67,10 +67,7 @@ export function drawSVGObjects(
     const x: number = positions[2 * index];
     const y: number = positions[2 * index + 1];
     if (useLogo) {
-      circle.setAttribute(
-        "transform",
-        `translate(${x.toString()}, ${y.toString()}) scale(0.005)`,
-      );
+      circle.setAttribute("transform", `translate(${x.toString()}, ${y.toString()}) scale(0.005)`);
     } else {
       circle.setAttribute("cx", x.toString());
       circle.setAttribute("cy", y.toString());

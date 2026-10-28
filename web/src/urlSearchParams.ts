@@ -15,12 +15,8 @@ export function getNitems(): number {
       nitems = Math.round(nitems);
       nitems = MIN_NITEMS < nitems ? nitems : MIN_NITEMS;
       return nitems;
-    } else {
-      // decide randomly if the input is invalid
-      return getRandomNitems();
     }
-  } else {
-    // decide randomly
-    return getRandomNitems();
   }
+  // decide randomly
+  return getRandomNitems();
 }

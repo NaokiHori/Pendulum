@@ -1,5 +1,5 @@
 import wbgInit, { Pendulum, InitOutput, Energy } from "../pkg";
-import { getHTMLElement, getSVGElement, adjustSVGSize } from "./dom";
+import { getElementByIdOrThrow, adjustSVGSize } from "./dom";
 import { getNitems } from "./urlSearchParams";
 import { initSVGObjects, drawSVGObjects } from "./svgObjects";
 import { Timer } from "./timer";
@@ -9,11 +9,13 @@ async function main() {
   // number of masses, given by user or decide randomly
   const nitems: number = getNitems();
   // fetch DOMs
-  const container: HTMLElement = getHTMLElement("svg-container");
-  const svgElement: SVGElement = getSVGElement("svg-canvas");
+  const container = getElementByIdOrThrow(HTMLElement, "svg-container");
+  const svgElement = getElementByIdOrThrow(SVGElement, "svg-canvas");
   // create lines and circles inside the given SVG image
-  const { lines, circles }: { lines: Element[]; circles: Element[] } =
-    initSVGObjects(svgElement, nitems);
+  const { lines, circles }: { lines: Element[]; circles: Element[] } = initSVGObjects(
+    svgElement,
+    nitems,
+  );
   // initialize simulator
   const pendulum = new Pendulum(nitems);
   // make the canvas (container / image) full-screen
@@ -38,7 +40,7 @@ async function main() {
   function updateAndDraw() {
     // integrate in time to get new information
     const drawFreq = 5e-2;
-    for (let time = 0; ; ) {
+    for (let time = 0; ;) {
       const dt: number = pendulum.integrate();
       time += dt;
       if (drawFreq < time) {

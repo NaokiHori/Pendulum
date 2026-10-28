@@ -1,29 +1,27 @@
 export class Timer {
-  _counter: number;
-  _increment: number;
-  _start_at: number;
-  _onTimerReset: () => void;
+  private counter: number;
+  private increment: number;
+  private startAt: number;
+  private onTimerReset: () => void;
 
-  constructor(increment: number, onTimerReset: () => void) {
-    this._counter = 0;
-    this._increment = increment;
-    this._start_at = 0;
-    this._onTimerReset = onTimerReset;
+  public constructor(increment: number, onTimerReset: () => void) {
+    this.counter = 0;
+    this.increment = increment;
+    this.startAt = 0;
+    this.onTimerReset = onTimerReset;
   }
 
-  public start() {
-    this._start_at = performance.now();
+  public start(): void {
+    this.startAt = performance.now();
   }
 
-  public update() {
-    this._counter += 1;
-    if (this._increment < performance.now() - this._start_at) {
-      console.log(
-        `${this._counter.toString()} animation loops per ${this._increment.toString()} ms`,
-      );
-      this._onTimerReset();
-      this._counter = 0;
-      this._start_at = performance.now();
+  public update(): void {
+    this.counter += 1;
+    if (this.increment < performance.now() - this.startAt) {
+      console.log(`${this.counter.toString()} animation loops per ${this.increment.toString()} ms`);
+      this.onTimerReset();
+      this.counter = 0;
+      this.startAt = performance.now();
     }
   }
 }
