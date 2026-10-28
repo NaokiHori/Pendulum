@@ -18,6 +18,7 @@ jobs:
     env:
       ASSETS: assets
       IMAGE_NAME_APP: naokihori/pendulum-app
+      IMAGE_NAME_DOCS: naokihori/pendulum-docs
       IMAGE_NAME_WEB: naokihori/pendulum-web
     runs-on: ubuntu-latest
     steps:
@@ -25,9 +26,6 @@ jobs:
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           persist-credentials: false
-      - name: Make directory to store all artifacts
-        run: |
-          mkdir ${{ env.ASSETS }}
       - name: Build app (Rust)
         run: |
           cd app
@@ -39,17 +37,16 @@ jobs:
           docker build -t ${{ env.IMAGE_NAME_WEB }} .
           mv ../app/pkg .
           make build
-      - name: Build documentation using Sphinx
+      - name: Build docs (Python)
         run: |
-          docker run \
-            --rm \
-            -v ${PWD}:/project \
-            -w /project \
-            sphinxdoc/sphinx:latest \
-            sphinx-build docs/source ${{ env.ASSETS }}/docs
+          cd docs
+          docker build -t ${{ env.IMAGE_NAME_DOCS }} .
+          make build
       - name: Pack all artifacts
         run: |
+          mkdir ${{ env.ASSETS }}
           mv web/dist/* ${{ env.ASSETS }}/
+          mv docs/build ${{ env.ASSETS }}/docs
           cp docs/source/thumbnail.jpg ${{ env.ASSETS }}/
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
