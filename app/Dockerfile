@@ -1,15 +1,15 @@
 FROM rust:latest
 
-RUN cargo install wasm-pack
-RUN rustup component add clippy rustfmt
+RUN cargo install wasm-pack \
+  && rustup component add clippy rustfmt \
+  && rustup target add wasm32-unknown-unknown
 
-RUN useradd --create-home --uid "1000" --shell /bin/bash app
-RUN mkdir -p /work /out /cache
-RUN chown app:app /work /out /cache
+RUN useradd --create-home --home-dir /app --uid 1000 app
 
 USER app
+WORKDIR /app
 
-ENV CARGO_HOME=/cache/cargo
-ENV CARGO_TARGET_DIR=/cache/target
+ENV CARGO_HOME=/app/.cargo \
+  CARGO_TARGET_DIR=/app/target
 
-WORKDIR /work
+RUN mkdir "$CARGO_HOME" "$CARGO_TARGET_DIR" /app/pkg
