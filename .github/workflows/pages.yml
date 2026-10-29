@@ -10,8 +10,38 @@ concurrency:
 permissions: {}
 
 jobs:
+  scan:
+    name: Scan images
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
+      - name: Build and scan images
+        run: |
+          cd web
+          docker build -t web .
+          cd ../scan
+          mkdir -p tmp
+          docker save web -o tmp/image.tar
+          #
+          docker build -t scan .
+          docker run \
+            --rm \
+            -v "${PWD}/tmp":/workspace:ro \
+            scan \
+            image \
+            --no-progress \
+            --severity CRITICAL \
+            --exit-code 1 \
+            --input /workspace/image.tar
   build:
     name: Build artifacts
+    needs: scan
     timeout-minutes: 10
     permissions:
       contents: read

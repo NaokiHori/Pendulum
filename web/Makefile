@@ -61,3 +61,12 @@ polish:
     $(IMAGE) \
     npx oxlint --type-aware -D correctness -D suspicious -A typescript/prefer-readonly-parameter-types src/
 
+scan:
+	mkdir -p tmp
+	docker save $(IMAGE) -o tmp/image.tar
+	docker run \
+    --rm \
+    -v "${PWD}/tmp":/workspace:ro \
+    naokihori/pendulum-scan:latest \
+    image --no-progress --severity HIGH,CRITICAL --input /workspace/image.tar
+
