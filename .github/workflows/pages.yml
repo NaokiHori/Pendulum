@@ -46,6 +46,8 @@ jobs:
     permissions:
       contents: read
     env:
+      ARTIFACT_BASE: "https://naokihori.github.io/Pendulum/"
+      ARTIFACT_DESTINATION: "./dist"
       ASSETS: assets
     runs-on: ubuntu-latest
     steps:
@@ -63,12 +65,15 @@ jobs:
           cd web
           make build-image
           mv ../app/pkg .
+          make polish
           make build
       - name: Build docs (Python)
         run: |
           cd docs
           make build-image
-          make build
+          make build \
+            ARTIFACT_BASE=${{ env.ARTIFACT_BASE }} \
+            ARTIFACT_DESTINATION=${{ env.ARTIFACT_DESTINATION }}
       - name: Pack all artifacts
         run: |
           mkdir ${{ env.ASSETS }}

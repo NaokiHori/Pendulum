@@ -1,5 +1,7 @@
 IMAGE := naokihori/pendulum-web:latest
 CONTAINER := pendulum-web
+ARTIFACT_DESTINATION ?= dist
+ARTIFACT_BASE ?= ./
 
 help:
 	@echo "build  : build artifacts"
@@ -15,8 +17,8 @@ build:
     -v "${PWD}/pkg":/app/pkg:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
-    npx vite build --outDir=/app/dist --base=https://naokihori.github.io/Pendulum/
-	docker cp $(CONTAINER):/app/dist ./dist
+    npx vite build --outDir=/app/dist --base=$(ARTIFACT_BASE)
+	docker cp $(CONTAINER):/app/dist $(ARTIFACT_DESTINATION)
 	docker rm $(CONTAINER)
 
 build-image:
