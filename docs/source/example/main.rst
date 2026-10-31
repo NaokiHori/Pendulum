@@ -32,15 +32,15 @@ Energy-conserving scheme
 
 .. code-block:: console
 
-   cargo run --release
+   cargo run --release --features=implicit
 
 The kinetic energy (:math:`\kinetic`, red), the potential energy (:math:`\potential`, blue), and their sum (:math:`\total`, black) are plotted as a function of time:
 
-.. image:: https://raw.githubusercontent.com/NaokiHori/Pendulum/refs/heads/artifact/artifacts/energy11.jpg
+.. image:: ./data/energy11.jpg
 
 The deviation of the total energy is around the rounding error:
 
-.. image:: https://raw.githubusercontent.com/NaokiHori/Pendulum/refs/heads/artifact/artifacts/energy12.jpg
+.. image:: ./data/energy12.jpg
 
 ***************
 Explicit scheme
@@ -50,11 +50,11 @@ Explicit scheme
 
    cargo run --release --features=explicit
 
-.. image:: https://raw.githubusercontent.com/NaokiHori/Pendulum/refs/heads/artifact/artifacts/energy21.jpg
+.. image:: ./data/energy21.jpg
 
 The deviation of the total energy is *not* around the rounding error:
 
-.. image:: https://raw.githubusercontent.com/NaokiHori/Pendulum/refs/heads/artifact/artifacts/energy22.jpg
+.. image:: ./data/energy22.jpg
 
 Although this behavior is improved when the angle is updated using the Crank-Nicolson scheme:
 
