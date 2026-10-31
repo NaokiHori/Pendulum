@@ -2,7 +2,7 @@
 
 //! Simulates N-body pendulum.
 
-use pendulum::{Energy, Pendulum};
+mod pendulum;
 
 /// Main function of the binary crate.
 fn main() {
@@ -13,7 +13,7 @@ fn main() {
     // number of masses
     let nitems: usize = 8;
     // obtain the initial state of a pendulum
-    let mut pendulum = Pendulum::new(nitems);
+    let mut pendulum = pendulum::Pendulum::new(nitems);
     // start to integrate the equations in time
     let mut time: f64 = 0f64;
     let mut stat_next: f64 = stat_rate;
@@ -33,9 +33,9 @@ fn main() {
 }
 
 /// Writes instantaneous energies to file.
-fn check_stats(time: f64, pendulum: &Pendulum) {
+fn check_stats(time: f64, pendulum: &pendulum::Pendulum) {
     const FILE_NAME: &str = "energy.dat";
-    let energy: Energy = pendulum.check_energies();
+    let energy = pendulum.check_energies();
     let string: String = format!(
         "{:+18.15e} {:+18.15e} {:+18.15e} {:+18.15e}",
         time,

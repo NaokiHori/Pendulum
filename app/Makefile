@@ -15,8 +15,8 @@ build:
     -v "${PWD}/Cargo.lock":/app/Cargo.lock:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
-    wasm-pack build --target web --out-dir /app/pkg --features library-crate
-	docker cp $(CONTAINER):/app/pkg ./pkg
+    cargo build --lib --target wasm32-unknown-unknown --release
+	docker cp $(CONTAINER):/app/target/wasm32-unknown-unknown/release/pendulum.wasm .
 	docker rm $(CONTAINER)
 
 build-image:
@@ -30,11 +30,10 @@ run:
     -v "${PWD}/Cargo.lock":/app/Cargo.lock:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
-    cargo run --locked
+    cargo run --locked --release
 
 fmt:
 	docker run \
-    --init \
     --rm \
     -v "${PWD}/Cargo.toml":/app/Cargo.toml:ro \
     -v "${PWD}/Cargo.lock":/app/Cargo.lock:ro \
@@ -44,7 +43,6 @@ fmt:
 
 clippy:
 	docker run \
-    --init \
     --rm \
     -v "${PWD}/Cargo.toml":/app/Cargo.toml:ro \
     -v "${PWD}/Cargo.lock":/app/Cargo.lock:ro \

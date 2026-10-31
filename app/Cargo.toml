@@ -6,7 +6,7 @@ authors = ["Naoki Hori"]
 description = "Energy-conserving N-body pendulum simulator"
 repository = "https://github.com/NaokiHori/Pendulum"
 publish = false
-license-file = "LICENSE"
+license = "MIT"
 
 [[bin]]
 name = "pendulum"
@@ -15,13 +15,7 @@ path = "src/main.rs"
 [lib]
 name = "pendulum"
 path = "src/lib.rs"
-crate-type = ["cdylib", "rlib"]
+crate-type = ["cdylib", "lib"]
 
 [features]
 explicit = []
-library-crate = ["wasm-bindgen"]
-
-[dependencies.wasm-bindgen]
-version = "0.2.99"
-default-features = false
-optional = true

@@ -14,7 +14,6 @@ build:
     --name $(CONTAINER) \
     -v "${PWD}/index.html":/app/index.html:ro \
     -v "${PWD}/style.css":/app/style.css:ro \
-    -v "${PWD}/pkg":/app/pkg:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
     npx vite build --outDir=/app/dist --base=$(ARTIFACT_BASE)
@@ -31,7 +30,6 @@ dev:
     --name $(CONTAINER) \
     -v "${PWD}/index.html":/app/index.html:ro \
     -v "${PWD}/style.css":/app/style.css:ro \
-    -v "${PWD}/pkg":/app/pkg:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
     npx vite dev --host
@@ -41,7 +39,6 @@ polish:
 	docker run \
     --rm \
     --name $(CONTAINER) \
-    -v "${PWD}/pkg":/app/pkg:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
     npx tsc
@@ -58,7 +55,6 @@ polish:
 	docker run \
     --rm \
     --name $(CONTAINER) \
-    -v "${PWD}/pkg":/app/pkg:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
     npx oxlint --type-aware -D correctness -D suspicious -A typescript/prefer-readonly-parameter-types src/

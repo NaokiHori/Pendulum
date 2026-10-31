@@ -1,11 +1,17 @@
-import wbgInit, { Pendulum, InitOutput, Energy } from "../pkg";
 import { getElementByIdOrThrow, adjustSVGSize } from "./dom";
 import { getNitems } from "./urlSearchParams";
 import { initSVGObjects, drawSVGObjects } from "./svgObjects";
 import { Timer } from "./timer";
+import { Pendulum } from "./pendulum";
+import wasmUrl from "./pendulum.wasm?url";
+
+async function getWasmInstance(): Promise<WebAssembly.Instance> {
+  const { instance } = await WebAssembly.instantiateStreaming(fetch(wasmUrl));
+  return instance;
+}
 
 async function main() {
-  const wbgModule: InitOutput = await wbgInit();
+  const wasmInstance = await getWasmInstance();
   // number of masses, given by user or decide randomly
   const nitems: number = getNitems();
   // fetch DOMs
@@ -17,25 +23,16 @@ async function main() {
     nitems,
   );
   // initialize simulator
-  const pendulum = new Pendulum(nitems);
+  const pendulum = new Pendulum(wasmInstance, nitems);
   // make the canvas (container / image) full-screen
   adjustSVGSize(container, svgElement);
   // register synchronization as an event as well
   window.addEventListener("resize", () => {
     adjustSVGSize(container, svgElement);
   });
-  // compute and print energies periodically
-  // this is registered to the timer (profiler)
-  const handleTimerReset = (): void => {
-    const energies: Energy = pendulum.check_energies();
-    const kinetic: number = energies.kinetic;
-    const potential: number = energies.potential;
-    const total: number = kinetic + potential;
-    console.log(`  kinetic: ${kinetic.toString()}`);
-    console.log(`  potential: ${potential.toString()}`);
-    console.log(`  total: ${total.toString()}`);
-  };
-  const timer = new Timer(1000, handleTimerReset);
+  const timer = new Timer(1000, () => {
+    /* nothing to do */
+  });
   // rendering loop
   function updateAndDraw() {
     // integrate in time to get new information
@@ -49,11 +46,7 @@ async function main() {
     }
     // create a view to the shared memory
     // NOTE: this should be called every time as the pointer seems to be changed
-    const positions = new Float64Array(
-      wbgModule.memory.buffer,
-      pendulum.get_cartesian_positions(),
-      nitems * 2,
-    );
+    const positions = pendulum.getCartesianPositions();
     drawSVGObjects(nitems, positions, lines, circles);
     timer.update();
     requestAnimationFrame(() => {

@@ -13,7 +13,7 @@
 
 Visit [the website](https://naokihori.github.io/Pendulum/), where an online simulator is available.
 
-The simulator and the surrounding interfaces are implemented in `Rust`, which are converted into `WebAssembly` for real-time executions powered by [`wasm-bindgen`](https://rustwasm.github.io/docs/wasm-bindgen/).
+The simulator and the surrounding interfaces are implemented in Rust, which are converted into WebAssembly (WASM) for real-time executions.
 
 [All recent browsers should be supported in theory](https://webassembly.org/features/).
 At least I have checked:

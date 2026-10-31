@@ -12,16 +12,12 @@
 //! ```
 //! Note that the time step size `dt` is decided by the integrator and not to be specified.
 
-#[cfg(feature = "library-crate")]
-use wasm_bindgen::prelude::*;
-
 #[cfg(feature = "explicit")]
 pub mod explicit_integrator;
 #[cfg(not(feature = "explicit"))]
 pub mod implicit_integrator;
 
 /// Main struct, storing state of a pendulum and methods to update myself.
-#[cfg_attr(feature = "library-crate", wasm_bindgen)]
 pub struct Pendulum {
     /// Number of masses.
     nitems: usize,
@@ -39,15 +35,14 @@ pub struct Pendulum {
     /// Internal vector buffers.
     arr_buf: Vec<f64>,
     /// Locations of particles in Cartesian coordinate.
+    #[allow(dead_code)]
     cartesian_positions: Vec<f64>,
 }
 
-#[cfg_attr(feature = "library-crate", wasm_bindgen)]
 impl Pendulum {
     /// Constructor to initialize a pendulum.
     ///
     /// See [the example](https://naokihori.github.io/Pendulum/docs/example/main.html) which explains why this specific condition is chosen.
-    #[cfg_attr(feature = "library-crate", wasm_bindgen(constructor))]
     pub fn new(nitems: usize) -> Self {
         let v0: f64 = (6f64 / (2 * nitems + 1) as f64).sqrt();
         let velocities = vec![v0; nitems];
@@ -138,23 +133,25 @@ impl Pendulum {
     }
 
     /// Getter, number of masses.
+    #[allow(dead_code)]
     pub fn nitems(&self) -> usize {
         self.nitems
     }
 
     /// Getter, (angular) velocities.
-    #[cfg(not(feature = "library-crate"))]
+    #[allow(dead_code)]
     pub fn velocities(&self) -> &Vec<f64> {
         &self.velocities
     }
 
     /// Getter, positions (angles).
-    #[cfg(not(feature = "library-crate"))]
+    #[allow(dead_code)]
     pub fn positions(&self) -> &Vec<f64> {
         &self.positions
     }
 
     /// Returns a pointer to the current mass positions in Cartesian coordinates.
+    #[allow(dead_code)]
     pub fn get_cartesian_positions(&mut self) -> *const f64 {
         let angles: &[f64] = &self.positions;
         let positions: &mut [f64] = &mut self.cartesian_positions;
@@ -173,7 +170,6 @@ impl Pendulum {
 }
 
 /// Stores kinetic and the potential energies.
-#[cfg_attr(feature = "library-crate", wasm_bindgen)]
 pub struct Energy {
     /// Kinetic energy
     pub kinetic: f64,
