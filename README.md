@@ -1,9 +1,6 @@
 # [Pendulum](https://naokihori.github.io/Pendulum/)
 
 ![License](https://img.shields.io/github/license/NaokiHori/Pendulum)
-[![Last Commit](https://img.shields.io/github/last-commit/NaokiHori/Pendulum/main)](https://github.com/NaokiHori/Pendulum/commits/main)
-[![CI](https://github.com/NaokiHori/Pendulum/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/NaokiHori/Pendulum/actions/workflows/ci.yml)
-[![Pages](https://github.com/NaokiHori/Pendulum/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/NaokiHori/Pendulum/actions/workflows/pages.yml)
 
 [![YouTube](https://img.shields.io/badge/youtube-%23EE4831.svg?&style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/UQg8x4yleWE)
 

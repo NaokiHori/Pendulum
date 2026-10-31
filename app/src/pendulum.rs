@@ -13,9 +13,9 @@
 //! Note that the time step size `dt` is decided by the integrator and not to be specified.
 
 #[cfg(feature = "explicit")]
-pub mod explicit_integrator;
-#[cfg(not(feature = "explicit"))]
-pub mod implicit_integrator;
+mod explicit_integrator;
+#[cfg(feature = "implicit")]
+mod implicit_integrator;
 
 /// Main struct, storing state of a pendulum and methods to update myself.
 pub struct Pendulum {
@@ -30,7 +30,7 @@ pub struct Pendulum {
     /// Internal vector buffer, 0.
     vec_buf0: Vec<f64>,
     /// Internal vector buffer, 1.
-    #[cfg(not(feature = "explicit"))]
+    #[cfg(feature = "implicit")]
     vec_buf1: Vec<f64>,
     /// Internal vector buffers.
     arr_buf: Vec<f64>,
@@ -49,7 +49,7 @@ impl Pendulum {
         let positions = vec![0f64; nitems];
         let dt = 1f64;
         let vec_buf0 = vec![0f64; nitems];
-        #[cfg(not(feature = "explicit"))]
+        #[cfg(feature = "implicit")]
         let vec_buf1 = vec![0f64; nitems];
         let arr_buf = vec![0f64; nitems * nitems];
         let cartesian_positions = vec![0f64; 2 * nitems];
@@ -59,7 +59,7 @@ impl Pendulum {
             velocities,
             dt,
             vec_buf0,
-            #[cfg(not(feature = "explicit"))]
+            #[cfg(feature = "implicit")]
             vec_buf1,
             arr_buf,
             cartesian_positions,
@@ -74,7 +74,7 @@ impl Pendulum {
         let positions: &mut Vec<f64> = &mut self.positions;
         let vec_buf0: &mut Vec<f64> = &mut self.vec_buf0;
         let arr_buf: &mut Vec<f64> = &mut self.arr_buf;
-        #[cfg(not(feature = "explicit"))]
+        #[cfg(feature = "implicit")]
         {
             use implicit_integrator::integrate;
             let vec_buf1: &mut Vec<f64> = &mut self.vec_buf1;
@@ -104,7 +104,7 @@ impl Pendulum {
     /// The (non-dimensional) potential energy is computed with repsect to the quiescent state.
     /// Since I fix the initial condition, the expected total energy is known a propri.
     /// This value is used to normalize the total value.
-    pub fn check_energies(&self) -> Energy {
+    pub fn check_energy(&self) -> Energy {
         let nitems: usize = self.nitems;
         let velocities: &Vec<f64> = &self.velocities;
         let positions: &Vec<f64> = &self.positions;

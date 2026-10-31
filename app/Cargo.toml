@@ -19,3 +19,4 @@ crate-type = ["cdylib", "lib"]
 
 [features]
 explicit = []
+implicit = []

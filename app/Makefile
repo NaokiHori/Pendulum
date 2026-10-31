@@ -1,5 +1,6 @@
 IMAGE := naokihori/pendulum-app:latest
 CONTAINER := pendulum-app
+FEATURES ?= implicit
 
 help:
 	@echo "build  : build wasm package"
@@ -23,14 +24,16 @@ build-image:
 	docker build --progress=plain -t $(IMAGE) .
 
 run:
+	mkdir -p output
 	docker run \
     --init \
     --rm \
     -v "${PWD}/Cargo.toml":/app/Cargo.toml:ro \
     -v "${PWD}/Cargo.lock":/app/Cargo.lock:ro \
     -v "${PWD}/src":/app/src:ro \
+    -v "${PWD}/output":/app/output \
     $(IMAGE) \
-    cargo run --locked --release
+    cargo run --locked --release --features=$(FEATURES)
 
 fmt:
 	docker run \

@@ -32,10 +32,10 @@ fn main() {
     }
 }
 
-/// Writes instantaneous energies to file.
+/// Writes instantaneous energy to file.
 fn check_stats(time: f64, pendulum: &pendulum::Pendulum) {
-    const FILE_NAME: &str = "energy.dat";
-    let energy = pendulum.check_energies();
+    const FILE_NAME: &str = "output/energy.dat";
+    let energy = pendulum.check_energy();
     let string: String = format!(
         "{:+18.15e} {:+18.15e} {:+18.15e} {:+18.15e}",
         time,

@@ -65,7 +65,7 @@ fn get_new_values(v_old: f64, p_old: f64, dv: f64, dt: f64) -> [f64; 2] {
 ///
 /// This function solves [the discrete governing equations](https://naokihori.github.io/Pendulum/discrete/time_marcher.html).  
 /// The main purpose is to iteratively update the difference of the angular velocities `dv` until converged.
-#[cfg(not(feature = "explicit"))]
+#[cfg(feature = "implicit")]
 pub fn integrate(
     dt: f64,
     nitems: usize,
