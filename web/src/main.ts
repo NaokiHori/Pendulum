@@ -1,7 +1,7 @@
 import { getElementByIdOrThrow, adjustSVGSize } from "./dom";
 import { getNitems } from "./urlSearchParams";
 import { initSVGObjects, drawSVGObjects } from "./svgObjects";
-import { Timer } from "./timer";
+import { Animation } from "./animation";
 import { Pendulum } from "./pendulum";
 import wasmUrl from "./pendulum.wasm?url";
 
@@ -30,11 +30,7 @@ async function main() {
   window.addEventListener("resize", () => {
     adjustSVGSize(container, svgElement);
   });
-  const timer = new Timer(1000, () => {
-    /* nothing to do */
-  });
-  // rendering loop
-  function updateAndDraw() {
+  const animation = new Animation(90, () => {
     // integrate in time to get new information
     const drawFreq = 5e-2;
     for (let time = 0; ;) {
@@ -48,14 +44,8 @@ async function main() {
     // NOTE: this should be called every time as the pointer seems to be changed
     const positions = pendulum.getCartesianPositions();
     drawSVGObjects(nitems, positions, lines, circles);
-    timer.update();
-    requestAnimationFrame(() => {
-      updateAndDraw();
-    });
-  }
-  // trigger first rendering
-  timer.start();
-  updateAndDraw();
+  });
+  animation.start();
 }
 
 window.addEventListener("load", () => {
