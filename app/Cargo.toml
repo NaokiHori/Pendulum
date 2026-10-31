@@ -15,7 +15,7 @@ path = "src/main.rs"
 [lib]
 name = "pendulum"
 path = "src/lib.rs"
-crate-type = ["cdylib", "lib"]
+crate-type = ["cdylib"]
 
 [features]
 explicit = []
