@@ -16,7 +16,7 @@ build:
     -v "${PWD}/Cargo.lock":/app/Cargo.lock:ro \
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
-    cargo build --lib --target wasm32-unknown-unknown --release
+    cargo build --lib --target wasm32-unknown-unknown --release --features=implicit
 	docker cp $(CONTAINER):/app/target/wasm32-unknown-unknown/release/pendulum.wasm .
 	docker rm $(CONTAINER)
 
@@ -51,5 +51,5 @@ clippy:
     -v "${PWD}/Cargo.lock":/app/Cargo.lock:ro \
     -v "${PWD}/src:/app/src:ro" \
     $(IMAGE) \
-    cargo clippy
+    cargo clippy --features=$(FEATURES)
 
