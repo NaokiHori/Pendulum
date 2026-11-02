@@ -1,6 +1,6 @@
 FROM python:alpine
 
-RUN adduser -D -h /app -u 1000 app
+RUN adduser -D -u 1000 app
 
 USER app
 WORKDIR /app
