@@ -1,4 +1,4 @@
-FROM node:alpine AS base
+FROM node:alpine
 
 RUN mkdir /app && chown node:node /app
 USER node
