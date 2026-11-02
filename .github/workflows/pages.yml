@@ -77,14 +77,20 @@ jobs:
           persist-credentials: false
       - name: Build image for scan
         run: |
-          cd web
-          docker build -t web .
+          cd ${{ matrix.image }}
+          docker build -t ${{ matrix.image }} .
       - name: Scan image
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           exit-code: '1'
-          image-ref: 'web'
+          image-ref: ${{ matrix.image }}
           severity: 'CRITICAL'
+    strategy:
+      matrix:
+        image:
+          - app
+          - docs
+          - web
     timeout-minutes: 10
 name: Deploy-Pages
 on:
