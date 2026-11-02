@@ -75,24 +75,16 @@ jobs:
         uses: actions/checkout@v6.0.0
         with:
           persist-credentials: false
-      - name: Build and scan images
+      - name: Build image for scan
         run: |
           cd web
           docker build -t web .
-          cd ../scan
-          mkdir -p tmp
-          docker save web -o tmp/image.tar
-          #
-          docker build -t scan .
-          docker run \
-            --rm \
-            -v "${PWD}/tmp":/workspace:ro \
-            scan \
-            image \
-            --no-progress \
-            --severity CRITICAL \
-            --exit-code 1 \
-            --input /workspace/image.tar
+      - name: Scan image
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          exit-code: '1'
+          image-ref: 'web'
+          severity: 'CRITICAL'
     timeout-minutes: 10
 name: Deploy-Pages
 on:
