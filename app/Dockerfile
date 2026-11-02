@@ -1,9 +1,9 @@
-FROM rust:latest
+FROM rust:alpine
 
 RUN rustup component add clippy rustfmt \
   && rustup target add wasm32-unknown-unknown
 
-RUN useradd --uid 1000 app
+RUN adduser -D -u 1000 app
 
 USER app
 WORKDIR /app
