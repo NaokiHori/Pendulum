@@ -4,8 +4,9 @@ concurrency:
 jobs:
   build:
     env:
-      ARTIFACT_BASE: "https://naokihori.github.io/Pendulum/"
-      ARTIFACT_DESTINATION: "./dist"
+      ARTIFACT_APP: "pendulum.wasm"
+      ARTIFACT_DOCS: "./artifact"
+      ARTIFACT_WEB: "./artifact"
       ASSETS: "assets"
     name: Build artifacts
     needs: scan
@@ -21,28 +22,29 @@ jobs:
         run: |
           cd app
           make build-image
-          make build
+          make build \
+            ARTIFACT=${{ env.ARTIFACT_APP }}
       - name: Build web (TypeScript)
         run: |
           cd web
           make build-image
-          mv ../app/pendulum.wasm ./src/
+          mv ../app/${{ env.ARTIFACT_APP }} ./src/
           make polish
-          make build
+          make build \
+            ARTIFACT=${{ env.ARTIFACT_WEB }}
       - name: Build docs (Python)
         run: |
           cd docs
           make build-image
           make build \
-            ARTIFACT_BASE=${{ env.ARTIFACT_BASE }} \
-            ARTIFACT_DESTINATION=${{ env.ARTIFACT_DESTINATION }}
+            ARTIFACT=${{ env.ARTIFACT_DOCS }}
       - name: Pack all artifacts
         run: |
           mkdir ${{ env.ASSETS }}
-          mv web/dist/* ${{ env.ASSETS }}/
-          mv docs/build ${{ env.ASSETS }}/docs
+          mv web/${{ env.ARTIFACT_WEB }}/* ${{ env.ASSETS }}/
+          mv docs/${{ env.ARTIFACT_DOCS }} ${{ env.ASSETS }}/docs
           cp docs/source/thumbnail.jpg ${{ env.ASSETS }}/
-      - name: Upload artifacts
+      - name: Upload assets
         uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: ${{ env.ASSETS }}

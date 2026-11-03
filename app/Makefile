@@ -1,6 +1,7 @@
 IMAGE := naokihori/pendulum-app:latest
 CONTAINER := pendulum-app
 FEATURES ?= implicit
+ARTIFACT ?= pendulum.wasm
 
 help:
 	@echo "build  : build wasm package"
@@ -17,7 +18,7 @@ build:
     -v "${PWD}/src":/app/src:ro \
     $(IMAGE) \
     cargo build --lib --target wasm32-unknown-unknown --release --features=implicit
-	docker cp $(CONTAINER):/app/target/wasm32-unknown-unknown/release/pendulum.wasm .
+	docker cp $(CONTAINER):/app/target/wasm32-unknown-unknown/release/pendulum.wasm $(ARTIFACT)
 	docker rm $(CONTAINER)
 
 build-image:

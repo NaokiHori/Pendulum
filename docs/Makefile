@@ -1,5 +1,6 @@
 IMAGE := naokihori/pendulum-docs:latest
 CONTAINER := pendulum-docs
+ARTIFACT ?= build
 
 help:
 	@echo "build       : build artifacts"
@@ -12,7 +13,7 @@ build:
     -v "${PWD}/source":/app/source:ro \
     $(IMAGE) \
     python -m sphinx -b html /app/source /app/build
-	docker cp $(CONTAINER):/app/build ./build
+	docker cp $(CONTAINER):/app/build $(ARTIFACT)
 	docker rm $(CONTAINER)
 
 build-image:
